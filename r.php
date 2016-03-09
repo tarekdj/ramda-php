@@ -9,9 +9,6 @@ class R {
 		return self::$_ === $a;
 	}
 
-    // public static $curry = self::_curry1(function ($fn) {
-    //     return self::_curryN(count($fn), $fn);
-    // });
 
 	public static function _curry1($fn) {
         return $f1 = function ($a) use($fn) {
@@ -179,68 +176,39 @@ class R {
         }
     }
 
-    public static $curryN;
+    
     public static $curry;
     public static $add;
     public static $sum;
+    public static $curryN;
 
     public static function curry($fn) {
-        return self::_curry1(function() use($fn) {
-            $rf = new ReflectionFunction($fn);
-            $n_params = count($rf->getParameters());
-            return self::curryN($n_params, $fn);
-        });
+        $rf = new ReflectionFunction($fn);
+        $n_params = count($rf->getParameters());
+
+        return self::curryN($n_params, $fn);
+        // return self::_curry1(function() use($fn, $n_params) {
+        //     return self::curryN($n_params, $fn);
+        // });
     }
 
     public static function curryN($length, $fn) {
-        return self::_curry2(function() use($length, $fn) {
-            if ($length === 1) {
+        return self::_curryN($length, [], $fn);
+/*
+        return self::_curry2(function() use($length, $fn){
+            if($length === 1) {
                 return self::_curry1($fn);
             }
             return self::_arity($length, self::_curryN($length, [], $fn));
         });
+        */
     }
+
 
     public static function init() {
         self::$_ = new PlaceHolder();
 
-        self::$curryN = self::_curry2(function($length, $fn) {
-                if ($length === 1) {
-                    return self::_curry1($fn);
-                }
-                return self::_arity($length, self::_curryN($length, [], $fn));
-        });
-
-        self::$curry = self::_curry1(function($fn) {
-            $rf = new ReflectionFunction($fn);
-            $n_params = count($rf->getParameters());
-            return self::curryN($n_params, $fn);
-        });
-
-        self::$add = self::_curry2(function($a, $b) {
-            return $a + $b;
-        });
-
-        self::$sum = self::_curry2(function($a, $b) {
-            return $a + $b;
-        });
-
     }
-/*
-    public static $curryN = self::_curry2(function($length, $fn) {
-            if ($length === 1) {
-                return self::_curry1($fn);
-            }
-            return self::_arity($length, self::_curryN($length, [], $fn));
-    });
-
-
-    public static $curry = self::_curry1(function($fn) {
-        $rf = new ReflectionFunction($fn);
-        $n_params = count($rf->getParameters());
-        return self::curryN($n_params, $fn);
-    });
-*/
     
 }
 
