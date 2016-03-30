@@ -182,6 +182,11 @@ class R {
     public static $sum;
     public static $curryN;
 
+    public static $keys;
+    public static $values;
+    public static $prop;
+
+
     public static function curry($fn) {
         $rf = new ReflectionFunction($fn);
         $n_params = count($rf->getParameters());
@@ -204,9 +209,126 @@ class R {
         */
     }
 
+    public static function _slice($args, $from, $to) {
+        $arguments = func_get_args();
+        switch(count($arguments)) {
+            case 1:
+                return self::_slice($args, 0, count($args));
+            case 2:
+                return self::_slice($args, $from, count($args));
+            default:
+                $list = [];
+                $idx = 0;
+                $len = max(0, min(count($args), to) - $from);
+                while($idx < $len) {
+                    $list[$idx] = $args[$from + $idx];
+                    $idx += 1;
+                }
+                return $list;
+        }
+    }
+
+    private static function _dispatchable($methodname, $xf, $fn) {
+        return function() use($fn) {
+            $arguments = func_get_args();
+            $length = count($arguments);
+            if($length === 0) {
+                return $fn();
+            }
+            $obj = $arguments[$length-1];
+            if(!is_array($obj)) {
+                $args = self::_slice($arguments, 0, length -1);
+                if(method_exists($obj, $methodname)) {
+                    // TODO
+                }
+                if(is_callable($obj)) {
+                    $transducer = $xf($args);
+                    //$return self::transducer($obj); // TODO
+                }
+            }
+
+            return call_user_func_array($fn, $arguments);
+        };
+    }
+
+    private static function _xgroupBy() {
+        // TODO
+    }
+/*
+    public static function groupBy($fn, $list) {
+        $groupBy = self::_reduce(function($acc, $elt) use($fn, $list){
+            $key = $fn($elf);
+            $acc[$key] = self::append($elt, $acc[$key] || ($acc[$key]=[]));
+            return $acc;
+        }, {}, $list);
+        return self::_curry2(self::_dispatchable('groupBy', self::x_groupBy, $groupBy));
+    }
+*/
+    public static function _concat($set1, $set2) {
+        $set1 = $set1 || [];
+        $set2 = $set2 || [];
+        return array_merge($set1, $set2);
+    }
+
+    public static function append($el, $list) {
+        return self::_curry2(function() use($el, $list){
+            return self::_concat($list, [$el]);
+        });
+    }
+
+    public static function _map($fn, $functor) {
+        return array_map($fn, $functor);
+    }
+
+    public static function map($fn, $functor) {
+        return self::_curry2(self::dispatchable(
+            'map', _xmap, function() {
+
+
+            }));
+
+    }
+
+    public static function addIndex($fn) {
+        return self::curryN(count($fn), function() use($fn) {
+            $idx = 0;
+            $arguments = func_get_args();
+            $length = count($arguments);
+            $origFn = $arguments[0];
+            $list = $srguments[$length - 1];
+            $args = self::_slice($arguments);
+            $args[0] = function() use($origFn, $idx, $list){
+                $arguments = func_get_args();
+                $result = call_user_func_array($origFn,
+                    self::_concat($arguments, [$idx, $list]));
+                $idx +=1;
+                return $result;
+            };
+
+            return call_user_func_array($fn, $arguments);
+        });
+    }
 
     public static function init() {
         self::$_ = new PlaceHolder();
+
+        self::$keys = self::_curry1(function($obj) {
+            return array_keys($obj);
+        });
+
+        self::$values = self::_curry1(function($obj) {
+            return array_values($obj);
+        });
+
+        self::$prop = self::_curry2(function($p, $obj) {
+            if(is_array($obj)) {
+                if(!array_key_exists($p, $obj)) {
+                    return null;
+                }
+                return $obj[$p];
+            }
+            return $obj->$p;
+        });
 
     }
     
