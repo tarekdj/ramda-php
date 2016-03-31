@@ -5,6 +5,32 @@ class R {
 	
 	public static $_;
 
+    public static $curry;
+    public static $add;
+    public static $sum;
+    public static $curryN;
+
+    public static $keys;
+    public static $values;
+    public static $prop;
+    public static $filter;
+    public static $map;
+
+    public static $where;
+    public static $whereEq;
+    public static $equals;
+    public static $gt;
+    public static $gte;
+    public static $lt;
+    public static $lte;
+    public static $not;
+
+    public static $ap;
+    public static $lift;
+    public static $liftN;
+    public static $complement;
+
+
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
 	}
@@ -177,15 +203,6 @@ class R {
     }
 
     
-    public static $curry;
-    public static $add;
-    public static $sum;
-    public static $curryN;
-
-    public static $keys;
-    public static $values;
-    public static $prop;
-
 
     public static function curry($fn) {
         $rf = new ReflectionFunction($fn);
@@ -328,6 +345,83 @@ class R {
                 return $obj[$p];
             }
             return $obj->$p;
+        });
+
+        self::$map = self::_curry2(function($fn, $functor) {
+            return array_map($fn, $functor);
+
+        });
+
+        self::$filter = self::_curry2(function($pred, $filterable) {
+            return array_filter($filterable, $pred);
+        });
+
+        self::$equals = self::_curry2(function($a,$b) {
+            return $a === $b;
+        });
+
+        self::$gt = self::_curry2(function($a,$b) {
+            return $a > $b;
+        });
+
+        self::$gte = self::_curry2(function($a,$b) {
+            return $a >= $b;
+        });
+
+        self::$lt = self::_curry2(function($a,$b) {
+            return $a < $b;
+        });
+
+        self::$lte = self::_curry2(function($a,$b) {
+            return $a <= $b;
+        });
+
+        self::$not = self::_curry1(function($a) {
+            return !$a;
+        });
+/*
+        self::$liftN = self::_curry2(function($arity, $fn) {
+            $lifted = self::curryN($arity, $fn);
+            return self::curryN($arity, function() use($fn, $lifted) {
+                $arguments = func_get_args();
+                return self::$_reduce(self::$ap, self::map($lifted, $arguments[0]),
+                                        self::_slice($arguments,1));
+            });
+        });
+
+        self::$lift = self::_curry1(function($fn) {
+            $rf = new ReflectionFunction($fn);
+            $n_params = count($rf->getParameters());
+            return self::liftN($n_params, $fn);
+        });
+
+        self::$complement = self::$lift(self::$not);
+*/
+
+        self::$whereEq = self::_curry2(function($spec, $testObj) {
+            return (self::$where)((self::$map)(self::$equals, $spec), $testObj);
+        });
+
+        self::$where = self::_curry2(function($spec, $testObj) {
+            if(is_array($testObj)) {
+                foreach($spec as $prop => $pred) {
+                    if(array_key_exists($prop, $testObj)) {
+                        if(!$pred($testObj[$prop])) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else {
+                foreach($spec as $prop => $pred) {
+                    if($testObj->$prop) {
+                        if(!$pred($testObj->$prop)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
         });
 
     }
