@@ -405,19 +405,15 @@ class R {
         self::$where = self::_curry2(function($spec, $testObj) {
             if(is_array($testObj)) {
                 foreach($spec as $prop => $pred) {
-                    if(array_key_exists($prop, $testObj)) {
-                        if(!$pred($testObj[$prop])) {
-                            return false;
-                        }
+                    if(!array_key_exists($prop, $testObj) || !$pred($testObj[$prop])) {
+                        return false;
                     }
                 }
                 return true;
             } else {
                 foreach($spec as $prop => $pred) {
-                    if($testObj->$prop) {
-                        if(!$pred($testObj->$prop)) {
-                            return false;
-                        }
+                    if(!$testObj->$prop || !$pred($testObj->$prop)) {
+                        return false;
                     }
                 }
                 return true;

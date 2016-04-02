@@ -24,7 +24,7 @@ class WhereTests extends PHPUnit_Framework_TestCase
  		$b['v'] = $b;
  		$this->assertTrue((R::$equals)($a, $b));
     }
-/*
+
     public function test_whereEq() {
 		$pred = (R::$whereEq)(['a'=> 1, 'b'=> 2]);
 
@@ -35,14 +35,14 @@ class WhereTests extends PHPUnit_Framework_TestCase
     }
 
     public function test_where() {
-    	$incomplete = R::$filter(R::$whereEq([complete=>false]));
+    	$incomplete = (R::$filter)((R::$whereEq)(['complete'=>false]));
 
-    	$records = [ [task=>'easy', complete=>true],
-    				 [task=>'hard', complete=>false]];
+    	$records = [ ['task'=>'easy', 'complete'=>true],
+    				 ['task'=>'hard', 'complete'=>false]];
     	$incomplete_records = $incomplete($records);
     	$this->assertNotNull($incomplete_records);
     	$this->assertEquals(count($incomplete_records), 1);
-    	$this->assertEquals($incomplete_records[0]['task'], 'hard');
+    	$this->assertEquals(array_values($incomplete_records)[0]['task'], 'hard');
     }
-*/
+
 }
