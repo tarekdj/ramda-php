@@ -17,6 +17,7 @@ class R {
     public static $filter;
     public static $map;
     public static $reduce;
+    public static $concat;
 
     public static $where;
     public static $whereEq;
@@ -283,11 +284,6 @@ class R {
         return self::_curry2(self::_dispatchable('groupBy', self::x_groupBy, $groupBy));
     }
 */
-    public static function _concat($set1, $set2) {
-        $set1 = $set1 || [];
-        $set2 = $set2 || [];
-        return array_merge($set1, $set2);
-    }
 
     public static function append($el, $list) {
         return self::_curry2(function() use($el, $list){
@@ -396,6 +392,15 @@ class R {
         });
 
         self::$inc = (self::$add)(1);
+
+        self::$concat = self::_curry2(function($set1, $set2) {
+            if(is_string($set1) || is_string($set2)) {
+                return $set1 . $set2;
+            }
+            $set1 = $set1 || [];
+            $set2 = $set2 || [];
+            return array_merge($set1, $set2);
+        });
 
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {
