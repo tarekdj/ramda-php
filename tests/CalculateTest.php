@@ -29,4 +29,20 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$negate)(42), -42);
     }
 
+    public function test_identical() {
+        $o = [];
+        $this->assertTrue((R::$identical)($o, $o));
+        $this->assertTrue((R::$identical)(1, 1));
+        $this->assertFalse((R::$identical)(1, '1'));
+        //$this->assertFalse((R::$identical)([], []));
+        //$this->assertFalse((R::$identical)(0, -0));
+        $this->asserttrue((R::$identical)(NAN, NAN));
+    }
+
+    public function test_identity() {
+        $this->assertEquals((R::$identity)(1),1);
+        $obj = [];
+        $this->assertEquals((R::$identity)($obj), $obj);
+    }
+
 }

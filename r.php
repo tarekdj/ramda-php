@@ -10,6 +10,8 @@ class R {
     public static $negate;
     public static $inc;
 
+    public static $toLower;
+    public static $toUpper;
 
     public static $keys;
     public static $values;
@@ -17,6 +19,10 @@ class R {
     public static $filter;
     public static $map;
     public static $reduce;
+    public static $concat;
+    public static $sortBy;
+    public static $identity;
+    public static $has;
 
     public static $where;
     public static $whereEq;
@@ -26,12 +32,17 @@ class R {
     public static $lt;
     public static $lte;
     public static $not;
+    public static $identical;
 
     public static $ap;
     public static $lift;
     public static $liftN;
     public static $complement;
 
+    public static $compose;
+
+    private static $_has;
+    private static $_identity;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
@@ -283,11 +294,6 @@ class R {
         return self::_curry2(self::_dispatchable('groupBy', self::x_groupBy, $groupBy));
     }
 */
-    public static function _concat($set1, $set2) {
-        $set1 = $set1 || [];
-        $set2 = $set2 || [];
-        return array_merge($set1, $set2);
-    }
 
     public static function append($el, $list) {
         return self::_curry2(function() use($el, $list){
@@ -396,6 +402,46 @@ class R {
         });
 
         self::$inc = (self::$add)(1);
+
+        self::$concat = self::_curry2(function($set1, $set2) {
+            if(is_string($set1) || is_string($set2)) {
+                return $set1 . $set2;
+            }
+            if(!$set1) {
+               $set1 = [];
+            }
+            if(!$set2) {
+                $set2 = [];
+            }
+
+            return array_merge($set1, $set2);
+        });
+
+        self::$sortBy = self::_curry2(function($fn, $list) {
+            $array = self::_slice($list);
+            usort($array, $fn);
+            return $array;
+        });
+
+        self::$toLower = self::_curry1(strtolower);
+        self::$toUpper = self::_curry1(strtoupper);
+
+        self::$_identity = function($x) {return $x;};
+        self::$identity = self::_curry1(self::$_identity);
+        self::$_has = function($prop, $obj) {
+            if(is_array($obj)) {
+                return array_key_exists($prop, $obj);
+            }
+            return $obj->$prop;
+        };
+        self::$has = self::_curry2(self::$_has);
+
+        self::$identical = self::_curry2(function($a, $b) {
+            if($a === $b) {
+                return $a !== 0 || 1 / $a == 1 / $b;
+            }
+            return $a !== $a && $b !== $b;
+        });
 
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {
