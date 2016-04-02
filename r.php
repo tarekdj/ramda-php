@@ -5,16 +5,18 @@ class R {
 	
 	public static $_;
 
-    public static $curry;
     public static $add;
     public static $sum;
-    public static $curryN;
+    public static $negate;
+    public static $inc;
+
 
     public static $keys;
     public static $values;
     public static $prop;
     public static $filter;
     public static $map;
+    public static $reduce;
 
     public static $where;
     public static $whereEq;
@@ -349,11 +351,14 @@ class R {
 
         self::$map = self::_curry2(function($fn, $functor) {
             return array_map($fn, $functor);
-
         });
 
         self::$filter = self::_curry2(function($pred, $filterable) {
             return array_filter($filterable, $pred);
+        });
+
+        self::$reduce = self::_curry3(function($fn, $initial_value, $array) {
+            return array_reduce($array, $fn, $initial_value);
         });
 
         self::$equals = self::_curry2(function($a,$b) {
@@ -379,6 +384,19 @@ class R {
         self::$not = self::_curry1(function($a) {
             return !$a;
         });
+
+        self::$add = self::_curry2(function($a, $b) {
+            return $a + $b;
+        });
+
+        self::$sum = (self::$reduce)(self::$add, 0);
+
+        self::$negate = self::_curry1(function($n) {
+            return -$n;
+        });
+
+        self::$inc = (self::$add)(1);
+
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {
             $lifted = self::curryN($arity, $fn);
