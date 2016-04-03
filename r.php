@@ -20,6 +20,7 @@ class R {
     public static $map;
     public static $reduce;
     public static $concat;
+
     public static $sortBy;
     public static $identity;
     public static $has;
