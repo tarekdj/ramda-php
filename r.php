@@ -9,6 +9,9 @@ class R {
     public static $sum;
     public static $negate;
     public static $inc;
+    public static $multiply;
+    public static $max;
+    public static $min;
 
     public static $toLower;
     public static $toUpper;
@@ -20,6 +23,10 @@ class R {
     public static $map;
     public static $reduce;
     public static $concat;
+    public static $reverse;
+    public static $pair;
+    public static $pick;
+    public static $pickAll;
 
     public static $sortBy;
     public static $identity;
@@ -404,6 +411,18 @@ class R {
 
         self::$inc = (self::$add)(1);
 
+        self::$multiply = self::_curry2(function($a, $b) {
+            return $a * $b;
+        });
+
+        self::$max = self::_curry2(function($a,$b) {
+            return $b > $a ? $b : $a;
+        });
+
+        self::$min = self::_curry2(function($a,$b) {
+            return $b < $a ? $b : $a;
+        });
+
         self::$concat = self::_curry2(function($set1, $set2) {
             if(is_string($set1) || is_string($set2)) {
                 return $set1 . $set2;
@@ -483,6 +502,47 @@ class R {
                 }
                 return true;
             }
+        });
+
+        self::$reverse = self::_curry1(function($list) {
+            if(is_string($list)) {
+                return implode(reverse(split('', $list)),'');
+            }
+            return reverse(self::_slice($list));
+        });
+
+        self::$pair = self::_curry2(function($e1, $e2) {return [$e1, $e2];});
+
+        self::$pick = self::_curry2(function($names, $obj) {
+            $result = [];
+            if(is_array($obj)) {
+                foreach($names as $name) {
+                    if(array_key_exists($name, $obj)) {
+                        $result[$name] = $obj[$name];
+                    }
+                }
+            } else {
+                foreach($names as $name) {
+                    if($obj->$name) {
+                        $result[$name] = $obj->$name;
+                    }
+                }
+            }
+            return $result;
+        });
+
+       self::$pickAll = self::_curry2(function($names, $obj) {
+            $result = [];
+            if(is_array($obj)) {
+                foreach($names as $name) {
+                    $result[$name] = array_key_exists($name, $obj) ? $obj[$name] : null;
+                }
+            } else {
+                foreach($names as $name) {
+                    $result[$name] = $obj->$name;
+                }
+            }
+            return $result;
         });
 
     }

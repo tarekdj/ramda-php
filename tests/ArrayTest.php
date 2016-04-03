@@ -51,6 +51,32 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$concat)('ABC', 'DEF'), 'ABCDEF');
     }
 
+    // public function test_revserse() {
+    //     $this->assertEquals((R::$reverse)([1,2,3]), [3,2,1]);
+    //     $this->assertEquals((R::$reverse)([1,2]), [2,1]);
+    //     $this->assertEquals((R::$reverse)([1]), [1]);
+    //     $this->assertEquals((R::$reverse)([]), []);
+
+    //     $this->assertEquals((R::$reverse)('abc'), 'cba');
+    //     $this->assertEquals((R::$reverse)('ab'), 'ba');
+    //     $this->assertEquals((R::$reverse)('a'), 'a');
+    //     $this->assertEquals((R::$reverse)(''), '');
+    // }
+
+    public function test_pair() {
+        $this->assertEquals((R::$pair)('foo', 'bar'), ['foo', 'bar']);
+    }
+
+    public function test_pick() {
+        $this->assertEquals((R::$pick)(['a', 'd'], ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['a'=>1, 'd'=>4]);
+        $this->assertEquals((R::$pick)(['a', 'e', 'f'], ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['a'=>1]);
+    }
+
+    public function test_pickAll() {
+        $this->assertEquals((R::$pickAll)(['a', 'd'], ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['a'=>1, 'd'=>4]);
+        $this->assertEquals((R::$pickAll)(['a', 'e', 'f'], ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['a'=>1, 'e'=>null, 'f'=>null]);
+    }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));

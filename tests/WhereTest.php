@@ -75,15 +75,4 @@ class WhereTests extends PHPUnit_Framework_TestCase
 		$this->assertFalse($pred(['a'=> 1, 'b'=>1]));
     }
 
-    public function test_where() {
-    	$incomplete = (R::$filter)((R::$whereEq)(['complete'=>false]));
-
-    	$records = [ ['task'=>'easy', 'complete'=>true],
-    				 ['task'=>'hard', 'complete'=>false]];
-    	$incomplete_records = $incomplete($records);
-    	$this->assertNotNull($incomplete_records);
-    	$this->assertEquals(count($incomplete_records), 1);
-    	$this->assertEquals(array_values($incomplete_records)[0]['task'], 'hard');
-    }
-
 }

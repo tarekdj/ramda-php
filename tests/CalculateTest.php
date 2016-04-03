@@ -45,4 +45,22 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$identity)($obj), $obj);
     }
 
+    public function test_multiply() {
+        $double = (R::$multiply)(2);
+        $triple = (R::$multiply)(3);
+        $this->assertEquals($double(3),6);
+        $this->assertEquals($triple(4),12);
+        $this->assertEquals((R::$multiply)(2,5),10);
+    }
+
+    public function test_min() {
+        $this->assertEquals((R::$min)(789, 123), 123);
+        $this->assertEquals((R::$min)('a', 'b'), 'a');
+    }
+
+    public function test_max() {
+        $this->assertEquals((R::$max)(789, 123), 789);
+        $this->assertEquals((R::$max)('a', 'b'), 'b');
+    }
+
 }
