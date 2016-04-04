@@ -114,6 +114,30 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$slice)(0, 3, 'ramda'), 'ram');
     }
 
+    public function test_init() {
+        $this->assertEquals((R::$init)([1,2,3]), [1,2]);
+        $this->assertEquals((R::$init)([1,2]), [1]);
+        $this->assertEquals((R::$init)([1]), []);
+        $this->assertEquals((R::$init)([]), []);
+
+        $this->assertEquals((R::$init)('abc'), 'ab');
+        $this->assertEquals((R::$init)('ab'), 'a');
+        $this->assertEquals((R::$init)('a'), '');
+        $this->assertEquals((R::$init)(''), '');
+    }
+
+    public function test_tail() {
+        $this->assertEquals((R::$tail)([1,2,3]), [2,3]);
+        $this->assertEquals((R::$tail)([1,2]), [2]);
+        $this->assertEquals((R::$tail)([1]), []);
+        $this->assertEquals((R::$tail)([]), []);
+
+        $this->assertEquals((R::$tail)('abc'), 'bc');
+        $this->assertEquals((R::$tail)('ab'), 'b');
+        $this->assertEquals((R::$tail)('a'), '');
+        $this->assertEquals((R::$tail)(''), '');
+    }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));

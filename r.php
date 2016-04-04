@@ -592,6 +592,8 @@ class R {
             return  array_splice($list, $fromIndex, $toIndex - $fromIndex);
         });     // TODO: _checkForMethod
 
+        self::$init = (self::$slice)(0, -1);
+        self::$tail = (self::$slice)(1, 2147483647);    // NOTE: was Infinity in js
         //self::$init = self::_curry
 
 /*
