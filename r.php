@@ -30,6 +30,13 @@ class R {
     public static $pickAll;
     public static $flatten;
 
+    public static $tail;
+    public static $init;
+    public static $nth;
+    public static $last;
+    public static $head;
+    public static $slice;
+
     public static $sortBy;
     public static $identity;
     public static $has;
@@ -403,6 +410,19 @@ class R {
         });
     }
 
+    private static function _checkForMethod($methodname, $fn) {
+        return function() use($methodname, $fn){
+            $arguments = func_get_args();
+            $length = count($arguments);
+            if($length ===0) {
+                return $fn();
+            }
+            $obj = $arguments[$length-1];
+            return is_array($obj) || !is_callable($obj->$methodname) ?
+                     $fn($arguments) : $obj->$methodname($obj, self::_slice($arguments, 0, $length -1));
+        };
+    }
+
     public static function initialize() {
         self::$_ = new PlaceHolder();
 
@@ -550,6 +570,29 @@ class R {
                 return $g($result);
             };
         };
+
+        self::$nth = self::_curry2(function ($offset, $list) {
+            if(is_array($list)) {
+                $idx = $offset < 0 ? count($list) + $offset : $offset;
+                return array_key_exists($idx, $list) ? $list[$idx] : null;
+            } else {
+                $len = strlen($list);
+                $idx = $offset < 0 ? $len + $offset : $offset;
+                return $idx >=0 && $idx < $len ? $list[$idx] : '';
+            }
+        });
+
+        self::$head = (self::$nth)(0);
+        self::$last = (self::$nth)(-1);
+
+        self::$slice = self::_curry3(function($fromIndex, $toIndex, $list) {
+            if(is_string($list)) {
+                return substr($list, $fromIndex, $toIndex - $fromIndex);
+            }
+            return  array_splice($list, $fromIndex, $toIndex - $fromIndex);
+        });     // TODO: _checkForMethod
+
+        //self::$init = self::_curry
 
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {

@@ -82,6 +82,38 @@ class ArrayTests extends PHPUnit_Framework_TestCase
                             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     }
 
+    public function test_nth() {
+        $list = ["foo", "bar", "baz", "quux"];
+        $this->assertEquals((R::$nth)(1, $list), 'bar');
+        $this->assertEquals((R::$nth)(-1, $list), 'quux');
+        $this->assertEquals((R::$nth)(-99, $list), null);
+
+        $this->assertEquals((R::$nth)(2, 'abc'), 'c');
+        $this->assertEquals((R::$nth)(3, 'abc'), '');
+    }
+
+    public function test_head() {
+        $this->assertEquals((R::$head)(['fi', 'fo', 'fum']), 'fi');
+        $this->assertNull((R::$head)([]));
+        $this->assertEquals((R::$head)('abc'), 'a');
+        $this->assertEquals((R::$head)(''), '');
+    }
+
+
+    public function test_last() {
+        $this->assertEquals((R::$last)(['fi', 'fo', 'fum']), 'fum');
+        $this->assertNull((R::$last)([]));
+        $this->assertEquals((R::$last)('abc'), 'c');
+        $this->assertEquals((R::$last)(''), '');
+    }
+
+    public function test_slice() {
+        $this->assertEquals((R::$slice)(1,3,['a', 'b', 'c', 'd']), ['b','c']);
+        $this->assertEquals((R::$slice)(0, -1, ['a', 'b', 'c', 'd']), ['a','b','c']);
+        $this->assertEquals((R::$slice)(-3, -1, ['a', 'b', 'c', 'd']), ['b','c']);
+        $this->assertEquals((R::$slice)(0, 3, 'ramda'), 'ram');
+    }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));
