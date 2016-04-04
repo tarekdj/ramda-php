@@ -29,6 +29,7 @@ class R {
     public static $pick;
     public static $pickAll;
     public static $flatten;
+    public static $zip;
 
     public static $tail;
     public static $init;
@@ -460,6 +461,17 @@ class R {
 
         self::$flatten = self::_curry1(function($list) {
             return self::flattRecursive($list);
+        });
+
+        self::$zip = self::_curry2(function($a, $b) {
+            $rv = [];
+            $la = count($a);
+            $lb = count($b);
+            $len = min($la, $lb);
+            for($idx=0;$idx < $len;$idx++) {
+                $rv[$idx] = [$idx < $la ? $a[$idx] : null, $idx < $lb ? $b[$idx]: null];
+            }
+            return $rv;
         });
 
         self::$chain = self::_curry2(function($fn, $monad) {

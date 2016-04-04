@@ -138,6 +138,11 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$tail)(''), '');
     }
 
+    public function test_zip() {
+        print_r((R::$zip)([1,2,3],['a','b','c']));
+        $this->assertEquals((R::$zip)([1,2,3],['a','b','c']), [[1,'a'],[2,'b'],[3,'c']]);
+    }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));
