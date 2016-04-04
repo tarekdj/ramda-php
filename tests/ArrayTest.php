@@ -77,6 +77,11 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$pickAll)(['a', 'e', 'f'], ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['a'=>1, 'e'=>null, 'f'=>null]);
     }
 
+    public function test_flatten() {
+        $this->assertEquals((R::$flatten)([1,2,[3,4],5,[6,[7,8,[9,10,11], 12]]]),
+                            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));

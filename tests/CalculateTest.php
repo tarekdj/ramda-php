@@ -62,5 +62,4 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$max)(789, 123), 789);
         $this->assertEquals((R::$max)('a', 'b'), 'b');
     }
-
 }

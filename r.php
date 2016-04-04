@@ -12,6 +12,7 @@ class R {
     public static $multiply;
     public static $max;
     public static $min;
+    public static $pow;     // added
 
     public static $toLower;
     public static $toUpper;
@@ -27,6 +28,7 @@ class R {
     public static $pair;
     public static $pick;
     public static $pickAll;
+    public static $flatten;
 
     public static $sortBy;
     public static $identity;
@@ -48,13 +50,20 @@ class R {
     public static $complement;
 
     public static $compose;
+    public static $chain;
 
     private static $_has;
     private static $_identity;
+    private static $_pipe;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
 	}
+
+    private static function getParametersCount($fn) {
+        $rf = new ReflectionFunction($fn);
+        return count($rf->getParameters());
+    }
 
 
 	public static function _curry1($fn) {
@@ -223,11 +232,8 @@ class R {
         }
     }
 
-    
-
     public static function curry($fn) {
-        $rf = new ReflectionFunction($fn);
-        $n_params = count($rf->getParameters());
+        $n_params = self::getParametersCount($fn);
 
         return self::curryN($n_params, $fn);
         // return self::_curry1(function() use($fn, $n_params) {
@@ -264,6 +270,61 @@ class R {
                 }
                 return $list;
         }
+    }
+
+    public static function pipe() {
+        $arguments = func_get_args();
+        $length = count($arguments);
+        if($length === 0) {
+            throw new Exception("pipe requires at least one argument");
+        }
+
+        return self::_arity(count($arguments[0]), (self::$reduce)(self::$_pipe, $arguments[0], self::tail($arguments)));
+    }
+
+    public static function tail($array) {
+        if(is_string($array)) {
+            return substr($array, 1);
+        }
+        $result = [];
+        for($i=1;$i<count($array);$i++) {
+            array_push($result, $array[$i]);
+        }
+        return $result;
+    }
+
+    private static function flattRecursive($list) {
+        $result = [];
+        $ilen = count($list);
+        for($idx = 0; $idx < $ilen; $idx++) {
+            if(is_array($list[$idx])) {
+                $value = self::flattRecursive($list[$idx]);
+                $jlen = count($value);
+                for($j = 0; $j < $jlen; $j++) {
+                    array_push($result, $value[$j]);
+                }
+            } else {
+                array_push($result, $list[$idx]);
+            }
+        }
+        return $result;
+    }
+
+    private static function flatt($list) {
+        $result = [];
+        $ilen = count($list);
+        for($idx = 0; $idx < $ilen; $idx++) {
+            if(is_array($list[$idx])) {
+                $value = $list[$idx];
+                $jlen = count($value);
+                for($j = 0; $j < $jlen; $j++) {
+                    array_push($result, $value[$j]);
+                }
+            } else {
+                array_push($result, $list[$idx]);
+            }
+        }
+        return $result;
     }
 
     private static function _dispatchable($methodname, $xf, $fn) {
@@ -342,7 +403,7 @@ class R {
         });
     }
 
-    public static function init() {
+    public static function initialize() {
         self::$_ = new PlaceHolder();
 
         self::$keys = self::_curry1(function($obj) {
@@ -373,6 +434,21 @@ class R {
 
         self::$reduce = self::_curry3(function($fn, $initial_value, $array) {
             return array_reduce($array, $fn, $initial_value);
+        });
+
+        self::$flatten = self::_curry1(function($list) {
+            return self::flattRecursive($list);
+        });
+
+        self::$chain = self::_curry2(function($fn, $monad) {
+            if(is_callable($monad)) {
+                return function() use($monad) {
+                    //return $modnad.call()?? TODO
+                };
+            }
+            return function() use($fn, $monad) {
+                return self::flatt(self::$map($fn, $monad));
+            };
         });
 
         self::$equals = self::_curry2(function($a,$b) {
@@ -413,6 +489,10 @@ class R {
 
         self::$multiply = self::_curry2(function($a, $b) {
             return $a * $b;
+        });
+
+        self::$pow = self::_curry2(function($a, $b) {
+            return pow($a, $b);
         });
 
         self::$max = self::_curry2(function($a,$b) {
@@ -462,6 +542,14 @@ class R {
             }
             return $a !== $a && $b !== $b;
         });
+
+        self::$_pipe = function ($f, $g) {
+            return function() use($f, $g){
+                $arguments = func_get_args();
+                $result = $f($arguments);
+                return $g($result);
+            };
+        };
 
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {
@@ -549,6 +637,6 @@ class R {
     
 }
 
-R::init();
+R::initialize();
 
 ?>
