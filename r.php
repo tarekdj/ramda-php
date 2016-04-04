@@ -55,6 +55,8 @@ class R {
     public static $lift;
     public static $liftN;
     public static $complement;
+    public static $tap;
+    public static $times;
 
     public static $compose;
     public static $chain;
@@ -594,6 +596,22 @@ class R {
 
         self::$init = (self::$slice)(0, -1);
         self::$tail = (self::$slice)(1, 2147483647);    // NOTE: was Infinity in js
+
+        self::$tap = self::_curry2(function($fn, $x) {
+            $fn($x);
+            return $x;
+        });
+
+        self::$times = self::_curry2(function($fn, $n) {
+            if($n < 0 || is_nan($n)) {
+                throw new Exception('n must be a non-negative number');
+            }
+            $list = [];
+            for($i=0;$i<$n;$i++) {
+                array_push($list, $fn($i));
+            }
+            return $list;
+        });
         //self::$init = self::_curry
 
 /*
