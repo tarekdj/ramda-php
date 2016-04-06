@@ -16,6 +16,8 @@ class R {
     public static $pow;     // added
     public static $and;
     public static $or;
+    public static $both;
+    public static $either;
 
     public static $toLower;
     public static $toUpper;
@@ -579,6 +581,22 @@ class R {
 
         self::$min = self::_curry2(function($a,$b) {
             return $b < $a ? $b : $a;
+        });
+
+        self::$both = self::_curry2(function($f, $g) {
+            return function() use($f,$g){
+                $args = func_get_args();
+                return call_user_func_array($f, $args) 
+                        && call_user_func_array($g, $args);
+            };
+        });
+
+       self::$either = self::_curry2(function($f, $g) {
+            return function() use($f,$g){
+                $args = func_get_args();
+                return call_user_func_array($f, $args) 
+                        || call_user_func_array($g, $args);
+            };
         });
 
         self::$concat = self::_curry2(function($set1, $set2) {

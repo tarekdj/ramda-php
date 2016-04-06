@@ -96,4 +96,19 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertTrue((R::$or)(false, true));
         $this->assertFalse((R::$or)(false, false));
     }
+
+
+
+    public function test_either_test_both() {
+        $gt10 = function($x) {return $x>10;};
+        $even = function($x) {return $x%2 ===0;};
+        $f = (R::$either)($gt10, $even);
+        $this->assertTrue($f(101));
+        $this->assertTrue($f(8));
+
+        $f = (R::$both)($gt10, $even);
+        $this->assertTrue($f(100));
+        $this->assertFalse($f(101));
+
+    }
 }
