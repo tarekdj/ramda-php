@@ -22,6 +22,7 @@ class R {
     public static $keys;
     public static $values;
     public static $prop;
+    public static $propOr;
     public static $filter;
     public static $map;
     public static $reduce;
@@ -382,12 +383,6 @@ class R {
     }
 */
 
-    public static function append($el, $list) {
-        return self::_curry2(function() use($el, $list){
-            return self::_concat($list, [$el]);
-        });
-    }
-
     public static function _map($fn, $functor) {
         return array_map($fn, $functor);
     }
@@ -453,6 +448,14 @@ class R {
                 return $obj[$p];
             }
             return $obj->$p;
+        });
+
+        self::$propOr = self::_curry3(function($val, $p, $obj) {
+            if(!$obj) {
+                return $val;
+            }
+            $v = (self::$prop)($p, $obj);
+            return $v ? $v : $val;
         });
 
         self::$map = self::_curry2(function($fn, $functor) {

@@ -21,7 +21,19 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     }
 
     public function test_prop() {
+        $this->assertEquals((R::$prop)('x', ['x'=> 100]), 100);
+        $this->assertNull((R::$prop)('x', []));
+    }
 
+    public function test_propOr() {
+        $alice = [
+            "name"=> "ALICE",
+            "age"=> 101
+        ];
+        $favorite = (R::$prop)('favoriteLibrary');
+        $favoriteWithDefault = (R::$propOr)('Ramda', 'favoriteLibrary');
+        $this->assertNull($favorite($alice));
+        $this->assertEquals($favoriteWithDefault($alice), 'Ramda');
     }
 
     public function test_filter() {
@@ -150,6 +162,7 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     public function test_prepend() {
         $this->assertEquals((R::$prepend)('fee', ['fi', 'fo', 'fum']), ['fee', 'fi', 'fo', 'fum']);
     }
+
 /*
     public function test_flip() {
         $mergeThree = function($a, $b, $c) {
