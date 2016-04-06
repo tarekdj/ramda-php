@@ -13,6 +13,8 @@ class R {
     public static $max;
     public static $min;
     public static $pow;     // added
+    public static $and;
+    public static $or;
 
     public static $toLower;
     public static $toUpper;
@@ -30,6 +32,7 @@ class R {
     public static $pickAll;
     public static $flatten;
     public static $zip;
+    public static $adjust;
 
     public static $tail;
     public static $init;
@@ -51,6 +54,8 @@ class R {
     public static $lte;
     public static $not;
     public static $identical;
+    public static $all;
+    public static $always;
 
     public static $ap;
     public static $lift;
@@ -61,6 +66,7 @@ class R {
 
     public static $compose;
     public static $chain;
+    public static $flip;
 
     private static $_has;
     private static $_identity;
@@ -273,7 +279,7 @@ class R {
             default:
                 $list = [];
                 $idx = 0;
-                $len = max(0, min(count($args), to) - $from);
+                $len = max(0, min(count($args), $to) - $from);
                 while($idx < $len) {
                     $list[$idx] = $args[$from + $idx];
                     $idx += 1;
@@ -474,6 +480,18 @@ class R {
             return $rv;
         });
 
+        self::$adjust = self::_curry3(function($fn, $idx, $list) {
+            $length = count($list);
+            if($idx >= $length || $idx < -$length) {
+                return $list;
+            }
+            $start = $idx < 0 ? $length : 0;
+            $_idx = $start + $idx;
+            //$_list = self::_concat($list);
+            $_list[$_idx] = $fn($list[$_idx]);
+            return $_list;
+        });
+
         self::$chain = self::_curry2(function($fn, $monad) {
             if(is_callable($monad)) {
                 return function() use($monad) {
@@ -529,6 +547,9 @@ class R {
             return pow($a, $b);
         });
 
+        self::$and = self::_curry2(function($a,$b) {return $a && $b;});
+        self::$or = self::_curry2(function($a,$b) {return $a || $b;});
+
         self::$max = self::_curry2(function($a,$b) {
             return $b > $a ? $b : $a;
         });
@@ -577,6 +598,30 @@ class R {
             return $a !== $a && $b !== $b;
         });
 
+        self::$all = self::_curry2(function($fn, $list) {
+            $length = count($list);
+            for($i=0;$i<$length;$i++) {
+                if(!$fn($list[$i])) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        self::$always = self::_curry1(function($val) {
+            return function() use($val){return $val;};
+        });
+/*
+        self::$flip = self::_curry1(function($fn) {
+            return self::_curry2(function($a, $b) use($fn){
+                $arguments = func_get_args();
+                $a = $arguments[0];
+                $arguments[0] = $arguments[1];
+                $arguments[1] = $a;
+                return call_user_func_array($fn, $arguments);
+            });
+        });
+*/
         self::$_pipe = function ($f, $g) {
             return function() use($f, $g){
                 $arguments = func_get_args();

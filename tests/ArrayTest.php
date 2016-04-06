@@ -139,10 +139,21 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     }
 
     public function test_zip() {
-        print_r((R::$zip)([1,2,3],['a','b','c']));
         $this->assertEquals((R::$zip)([1,2,3],['a','b','c']), [[1,'a'],[2,'b'],[3,'c']]);
     }
 
+    public function test_adjust() {
+        $this->assertEquals(array_diff((R::$adjust)((R::$add)(10), 1, [0,1,2]), [0,11,2]), []);
+        //$this->assertEquals(array_diff((R::$adjust)((R::$add)(10))(1)([0,1,2]), [0,11,2]), []);   // TODO
+    }
+/*
+    public function test_flip() {
+        $mergeThree = function($a, $b, $c) {
+            return [$a, $b, $c];
+        };
+        $this->assertEquals(((R::$flip)($mergeThree))(1,2,3), [2,1,3]);
+    }
+*/
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));

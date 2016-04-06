@@ -62,4 +62,30 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$max)(789, 123), 789);
         $this->assertEquals((R::$max)('a', 'b'), 'b');
     }
+
+    public function test_all() {
+        $lessThan2 = (R::$lt)(R::$_, 2);
+        $lessThan3 = (R::$lt)(R::$_, 3);
+        $this->assertFalse(((R::$all)($lessThan2))([1,2]));
+        $this->assertTrue(((R::$all)($lessThan3))([1,2]));
+    }
+
+    public function test_always() {
+        $t = (R::$always)("Tee");
+        $this->assertEquals($t(), "Tee");
+    }
+
+    public function test_and() {
+        $this->assertTrue((R::$and)(true, true));
+        $this->assertFalse((R::$and)(true, false));
+        $this->assertFalse((R::$and)(false, true));
+        $this->assertFalse((R::$and)(false, false));
+    }
+
+    public function test_or() {
+        $this->assertTrue((R::$or)(true, true));
+        $this->assertTrue((R::$or)(true, false));
+        $this->assertTrue((R::$or)(false, true));
+        $this->assertFalse((R::$or)(false, false));
+    }
 }
