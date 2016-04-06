@@ -53,6 +53,14 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$multiply)(2,5),10);
     }
 
+    public function test_divide() {
+        $this->assertEquals((R::$divide)(71,100), 0.71);
+        $half = (R::$divide)(R::$_, 2);
+        $this->assertEquals($half(42), 21);
+        $reciprocal = (R::$divide)(1);
+        $this->assertEquals($reciprocal(4), 0.25);
+    }
+
     public function test_min() {
         $this->assertEquals((R::$min)(789, 123), 123);
         $this->assertEquals((R::$min)('a', 'b'), 'a');

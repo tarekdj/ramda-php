@@ -10,6 +10,7 @@ class R {
     public static $negate;
     public static $inc;
     public static $multiply;
+    public static $divide;
     public static $max;
     public static $min;
     public static $pow;     // added
@@ -560,6 +561,9 @@ class R {
 
         self::$multiply = self::_curry2(function($a, $b) {
             return $a * $b;
+        });
+        self::$divide = self::_curry2(function($a, $b) {
+            return $a / $b;
         });
 
         self::$pow = self::_curry2(function($a, $b) {
