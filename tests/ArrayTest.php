@@ -36,6 +36,10 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($favoriteWithDefault($alice), 'Ramda');
     }
 
+    public function test_propSatisfies() {
+        $this->assertTrue((R::$propSatisfies)(function($x) {return $x>0;}, 'x', ['x'=>1, 'y'=>2]));
+    }
+
     public function test_filter() {
         $isEven = function($n) {
           return $n % 2 === 0;  
