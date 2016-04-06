@@ -146,6 +146,10 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(array_diff((R::$adjust)((R::$add)(10), 1, [0,1,2]), [0,11,2]), []);
         //$this->assertEquals(array_diff((R::$adjust)((R::$add)(10))(1)([0,1,2]), [0,11,2]), []);   // TODO
     }
+
+    public function test_prepend() {
+        $this->assertEquals((R::$prepend)('fee', ['fi', 'fo', 'fum']), ['fee', 'fi', 'fo', 'fum']);
+    }
 /*
     public function test_flip() {
         $mergeThree = function($a, $b, $c) {

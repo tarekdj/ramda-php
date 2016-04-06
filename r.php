@@ -33,6 +33,8 @@ class R {
     public static $flatten;
     public static $zip;
     public static $adjust;
+    public static $append;
+    public static $prepend;
 
     public static $tail;
     public static $init;
@@ -490,6 +492,14 @@ class R {
             //$_list = self::_concat($list);
             $_list[$_idx] = $fn($list[$_idx]);
             return $_list;
+        });
+
+        self::$append = self::_curry2(function($el, $list) {
+            return array_merge($list, [$el]);
+            
+        });
+        self::$prepend = self::_curry2(function($el, $list) {
+            return array_merge([$el], $list);
         });
 
         self::$chain = self::_curry2(function($fn, $monad) {
