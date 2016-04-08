@@ -40,6 +40,7 @@ class R {
     public static $adjust;
     public static $append;
     public static $prepend;
+    public static $of;
 
     public static $tail;
     public static $init;
@@ -520,6 +521,8 @@ class R {
         self::$prepend = self::_curry2(function($el, $list) {
             return array_merge([$el], $list);
         });
+
+        self::$of = self::_curry1(function($x) {return [$x];});
 
         self::$chain = self::_curry2(function($fn, $monad) {
             if(is_callable($monad)) {
