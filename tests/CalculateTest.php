@@ -129,6 +129,17 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $f = (R::$both)($gt10, $even);
         $this->assertTrue($f(100));
         $this->assertFalse($f(101));
+    }
 
+    public function test_comparator() {
+        $cmp = (R::$comparator)(function($a, $b) {return $a['age'] < $b['age'];});
+        $people = [['age'=>100], ['age'=>5]];
+        $sorted = (R::$sort)($cmp, $people);
+        $this->assertEquals($sorted, [['age'=>5], ['age'=>100]]);
+    }
+
+    public function test_sort() {
+        $diff = function($a, $b) { return $a - $b; };
+        $this->assertEquals((R::$sort)($diff, [4,2,7,5]), [2, 4, 5, 7]);
     }
 }

@@ -66,6 +66,8 @@ class R {
     public static $always;
     public static $aperture;
     public static $assoc;
+    public static $comparator;
+    public static $sort;
 
     public static $apply;
 
@@ -690,6 +692,18 @@ class R {
             }
             $result[$prop] = $val;
             return $result;
+        });
+
+        self::$comparator = self::_curry1(function($pred) {
+            return function($a,$b) use($pred){
+                return $pred($a, $b) ? -1 : $pred($b, $a) ? 1 : 0;
+            };
+        });
+
+        self::$sort = self::_curry2(function($comparator, $list) {
+            $l = $list;
+            usort($l, $comparator);
+            return $l;
         });
 /*
         self::$flip = self::_curry1(function($fn) {
