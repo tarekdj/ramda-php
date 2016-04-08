@@ -62,7 +62,12 @@ class R {
     public static $not;
     public static $identical;
     public static $all;
+    public static $any;
     public static $always;
+    public static $aperture;
+    public static $assoc;
+
+    public static $apply;
 
     public static $ap;
     public static $lift;
@@ -651,6 +656,40 @@ class R {
 
         self::$always = self::_curry1(function($val) {
             return function() use($val){return $val;};
+        });
+
+        self::$any = self::_curry2(function($fn, $list) {
+            $length = count($list);
+            for($i=0;$i<$length;$i++) {
+                if($fn($list[$i])) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        self::$aperture = self::_curry2(function($n, $list) {
+            $idx = 0;
+            $limit = count($list) - ($n - 1);
+            $acc = [];
+            while ($idx < $limit) {
+                array_push($acc, self::_slice($list, $idx, $idx + $n));
+                $idx += 1;
+            }
+            return $acc;
+        });
+
+        self::$apply = self::_curry2(function($fn, $args) {
+            return call_user_func_array($fn, $args);
+        });
+
+        self::$assoc = self::_curry3(function($prop, $val, $array) {
+            $result = [];
+            foreach($array as $key => $value) {
+                $result[$key] = $value;
+            }
+            $result[$prop] = $val;
+            return $result;
         });
 /*
         self::$flip = self::_curry1(function($fn) {

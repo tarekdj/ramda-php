@@ -2,7 +2,7 @@
 require_once 'r.php';
 
 
-class WhyNotTests extends PHPUnit_Framework_TestCase
+class ExampleTests extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {

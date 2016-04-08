@@ -78,9 +78,22 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertTrue(((R::$all)($lessThan3))([1,2]));
     }
 
+    public function test_any() {
+        $lessThan0 = (R::$lt)(R::$_, 0);
+        $lessThan2 = (R::$lt)(R::$_, 2);
+        $this->assertFalse(((R::$any)($lessThan0))([1,2]));
+        $this->assertTrue(((R::$any)($lessThan2))([1,2]));
+    }
+
     public function test_always() {
         $t = (R::$always)("Tee");
         $this->assertEquals($t(), "Tee");
+    }
+
+    public function test_aperture() {
+        $this->assertEquals((R::$aperture)(2,[1,2,3,4,5]), [[1, 2], [2, 3], [3, 4], [4, 5]]);
+        $this->assertEquals((R::$aperture)(3,[1,2,3,4,5]), [[1, 2, 3], [2, 3, 4], [3, 4, 5]]);
+        $this->assertEquals((R::$aperture)(7,[1,2,3,4,5]), []);
     }
 
     public function test_and() {
@@ -97,7 +110,14 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertFalse((R::$or)(false, false));
     }
 
+    public function test_apply() {
+        $nums = [1, 41];
+        $this->assertEquals((R::$apply)(function($a,$b) {return $a+$b;}, $nums),42);
+    }
 
+    public function test_assoc() {
+        $this->assertEquals((R::$assoc)('c', 3, ["a"=> 1, "b" => 2]), ["a"=>"1", "b"=>"2", "c"=>"3"]);
+    }
 
     public function test_either_test_both() {
         $gt10 = function($x) {return $x>10;};
