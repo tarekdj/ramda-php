@@ -12,7 +12,7 @@ class ExampleTests extends PHPUnit_Framework_TestCase
     {
     }
 
-    public function test_example1() {
+    public function test_why_ramda_example1() {
     	$incomplete = (R::$filter)((R::$whereEq)(['complete'=>false]));
 
     	$records = [ ['task'=>'easy', 'complete'=>true],

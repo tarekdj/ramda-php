@@ -9,6 +9,7 @@ class R {
     public static $sum;
     public static $negate;
     public static $inc;
+    public static $dec;
     public static $multiply;
     public static $divide;
     public static $max;
@@ -18,6 +19,7 @@ class R {
     public static $or;
     public static $both;
     public static $either;
+    public static $once;
 
     public static $toLower;
     public static $toUpper;
@@ -86,6 +88,8 @@ class R {
     private static $_has;
     private static $_identity;
     private static $_pipe;
+
+    public static $pipe;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
@@ -570,6 +574,7 @@ class R {
         });
 
         self::$inc = (self::$add)(1);
+        self::$dec = (self::$add)(-1);
 
         self::$multiply = self::_curry2(function($a, $b) {
             return $a * $b;
@@ -608,6 +613,26 @@ class R {
                         || call_user_func_array($g, $args);
             };
         });
+
+       // self::$once = self::_curry1(function($fn) {
+       //      $called = false;
+       //      $result = null;
+       //      return self::_arity(self::getParametersCount($fn), function() use($fn, $called, $result){
+       //          if (!$called) {
+       //              $called = new static();
+       //              $result = new static();
+       //              $called = false;
+       //          }
+
+       //          if ($called) {
+       //              return $result;
+       //          }
+       //          static $called = true;
+       //          $arguments = func_get_args();
+       //          $result = call_user_func_array($fn, $arguments);
+       //          return $result;
+       //      });
+       // });
 
         self::$concat = self::_curry2(function($set1, $set2) {
             if(is_string($set1) || is_string($set2)) {
@@ -722,9 +747,18 @@ class R {
         self::$_pipe = function ($f, $g) {
             return function() use($f, $g){
                 $arguments = func_get_args();
-                $result = $f($arguments);
-                return $g($result);
+                $result = call_user_func_array($f, $arguments);
+                return call_user_func_array($g, [$result]);
             };
+        };
+
+        self::$pipe = function() {
+            $arguments = func_get_args();
+            if(count($arguments) === 0) {
+                throw new Exception("pipe requires at least one argument");
+            }
+            $l = self::getParametersCount($arguments[0]);
+            return self::_arity($l, (self::$reduce)(self::$_pipe, $arguments[0], (self::$tail)($arguments)));
         };
 
         self::$nth = self::_curry2(function ($offset, $list) {
@@ -766,6 +800,7 @@ class R {
             }
             return $list;
         });
+
         //self::$init = self::_curry
 
 /*

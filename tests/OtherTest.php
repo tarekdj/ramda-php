@@ -38,12 +38,12 @@ class OtherTests extends PHPUnit_Framework_TestCase
     public function test_identity() {
         $this->assertEquals((R::$times)(R::$identity, 5), [0,1,2,3,4]);
     }
-/*
-    public function test_pipe() {
-        $f = R::pipe(R::$pow, R::$negate, R::$inc);
-        $this->assertEquals($f(3,4), -80);
-    }
 
+    public function test_pipe() {
+        $f = R::pipe(R::$negate, R::$inc);
+        $this->assertEquals($f(3), -2);
+    }
+/*
     public function test_chain() {
         $duplicate = function($n) {
             return [$n, $n];

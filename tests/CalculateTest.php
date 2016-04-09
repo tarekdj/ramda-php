@@ -25,6 +25,11 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$inc)(42), 43);
     }
 
+    public function test_dec() {
+        $this->assertEquals((R::$dec)(42), 41);
+    }
+
+
     public function test_negate() {
         $this->assertEquals((R::$negate)(42), -42);
     }
@@ -142,4 +147,11 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $diff = function($a, $b) { return $a - $b; };
         $this->assertEquals((R::$sort)($diff, [4,2,7,5]), [2, 4, 5, 7]);
     }
+
+    // TODO:
+    // public function test_once() {
+    //     $addOneOnce = (R::$once)(R::$inc);
+    //     $this->assertEquals($addOneOnce(10), 11);
+    //     $this->assertEquals($addOneOnce(50), 11);
+    // }
 }
