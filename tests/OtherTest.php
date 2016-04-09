@@ -43,6 +43,11 @@ class OtherTests extends PHPUnit_Framework_TestCase
         $f = R::pipe(R::$negate, R::$inc);
         $this->assertEquals($f(3), -2);
     }
+
+    // public function test_compose() {
+    //     $f = (R::$compose)(R::$inc, R::$negate);
+    //     $this->assertEquals($f(3), -2);        
+    // }
 /*
     public function test_chain() {
         $duplicate = function($n) {

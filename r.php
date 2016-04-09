@@ -91,6 +91,10 @@ class R {
 
     public static $pipe;
 
+    public static $take;
+    public static $mapObj;
+    public static $project;
+
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
 	}
@@ -761,6 +765,18 @@ class R {
             return self::_arity($l, (self::$reduce)(self::$_pipe, $arguments[0], (self::$tail)($arguments)));
         };
 
+        self::$compose = function() {
+            $arguments = func_get_args();
+            if(count($arguments) === 0) {
+                throw new Exception("pipe requires at least one argument");
+            }
+            return call_user_func_array(self::$pipe, (self::$reverse)($arguments));
+        };
+
+        self::$take = self::_curry2(function ($n, $xs) {
+            return (self::$slice)(0, $n < 0 ? Infinity : $n, $xs);
+        });
+
         self::$nth = self::_curry2(function ($offset, $list) {
             if(is_array($list)) {
                 $idx = $offset < 0 ? count($list) + $offset : $offset;
@@ -846,9 +862,9 @@ class R {
 
         self::$reverse = self::_curry1(function($list) {
             if(is_string($list)) {
-                return implode(reverse(split('', $list)),'');
+                return implode((self::$reverse)(split('', $list)),'');
             }
-            return reverse(self::_slice($list));
+            return (self::$reverse)(self::_slice($list));
         });
 
         self::$pair = self::_curry2(function($e1, $e2) {return [$e1, $e2];});

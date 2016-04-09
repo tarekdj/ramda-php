@@ -171,6 +171,13 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$of)(1), [1]);
     }
 
+    public function test_take() {
+         $this->assertEquals((R::$take)(1, ['foo', 'bar', 'baz']), ['foo']);
+         $this->assertEquals((R::$take)(2, ['foo', 'bar', 'baz']), ['foo', 'bar']);
+         $this->assertEquals((R::$take)(3, ['foo', 'bar', 'baz']), ['foo', 'bar', 'baz']);
+         $this->assertEquals((R::$take)(4, ['foo', 'bar', 'baz']), ['foo', 'bar', 'baz']);
+         $this->assertEquals((R::$take)(3, 'ramda')              , 'ram');
+     }
 /*
     public function test_flip() {
         $mergeThree = function($a, $b, $c) {
