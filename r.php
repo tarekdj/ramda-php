@@ -94,6 +94,7 @@ class R {
     public static $take;
     public static $mapObj;
     public static $project;
+    public static $useWith;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
@@ -775,6 +776,18 @@ class R {
 
         self::$take = self::_curry2(function ($n, $xs) {
             return (self::$slice)(0, $n < 0 ? Infinity : $n, $xs);
+        });
+
+        self::$useWith = self::_curry2(function($fn, $transformers) {
+            $l = count($transformers);
+            return self::curryN($l, function() use($l, $transformers, $fn) {
+                $args = [];
+                $arguments = func_get_args();
+                for($i=0;$i<$l;$i++) {
+                    array_push($args, call_user_func_array($transformers[$i], [$arguments[$i]]));
+                }
+                return call_user_func_array($fn, $args);
+            });
         });
 
         self::$nth = self::_curry2(function ($offset, $list) {
