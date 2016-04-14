@@ -914,6 +914,8 @@ class R {
             return $result;
         });
 
+        self::$project = (self::$useWith)(self::$map, [self::$pickAll, self::$identity]);
+
     }
     
 }

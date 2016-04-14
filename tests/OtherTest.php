@@ -51,6 +51,14 @@ class OtherTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$useWith)(R::$multiply, [R::$dec, R::$inc])(3)(4), 10);
     }
 
+    public function test_projection() {
+        $abby = ["name"=> 'Abby', "age"=> 7, "hair"=> 'blond', "grade"=> 2];
+        $fred = ["name"=> 'Fred', "age"=> 12, "hair"=> 'brown', "grade"=> 7];
+        $kids = [$abby, $fred];
+        $this->assertEquals((R::$project)(['name', 'grade'], $kids), [["name"=> 'Abby', "grade"=> 2], ["name"=> 'Fred', "grade"=> 7]]);
+
+    }
+
     // public function test_compose() {
     //     $f = (R::$compose)(R::$inc, R::$negate);
     //     $this->assertEquals($f(3), -2);        
