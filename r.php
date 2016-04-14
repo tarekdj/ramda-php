@@ -92,7 +92,7 @@ class R {
     public static $pipe;
 
     public static $take;
-    public static $mapObj;
+    public static $mapObjIndexed;
     public static $project;
     public static $useWith;
 
@@ -773,6 +773,13 @@ class R {
             }
             return call_user_func_array(self::$pipe, (self::$reverse)($arguments));
         };
+
+        self::$mapObjIndexed = self::_curry2(function($fn, $obj) {
+            return (self::$reduce)(function($acc, $key) use($fn, $obj) {
+                $acc[$key] = $fn($obj[$key], $key, $obj);
+                return $acc;
+            }, [], (self::$keys)($obj));
+        });
 
         self::$take = self::_curry2(function ($n, $xs) {
             return (self::$slice)(0, $n < 0 ? Infinity : $n, $xs);

@@ -59,6 +59,13 @@ class OtherTests extends PHPUnit_Framework_TestCase
 
     }
 
+    public function test_mapObjIndexed() {
+        $values = ["x" => 1, "y" => 2, "z" => 3];
+        $prependKeyAndDouble = function($num, $key, $obj) {return $key . ($num*2);};
+        $this->assertEquals((R::$mapObjIndexed)($prependKeyAndDouble, $values),
+            ["x" => 'x2', "y" => 'y4', "z" => 'z6']);
+    }
+
     // public function test_compose() {
     //     $f = (R::$compose)(R::$inc, R::$negate);
     //     $this->assertEquals($f(3), -2);        
