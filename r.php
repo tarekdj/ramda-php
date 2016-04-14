@@ -43,6 +43,9 @@ class R {
     public static $append;
     public static $prepend;
     public static $of;
+    public static $contains;
+    public static $partition;
+    public static $indexOf;
 
     public static $tail;
     public static $init;
@@ -390,6 +393,22 @@ class R {
         };
     }
 
+    private static function _indexOf($list, $a, $idx) {
+        $l = count($list);
+        while($idx < $l) {
+            $item = $list[$idx];
+            if($item == $a) {
+                return $idx;
+            }
+            $idx += 1;
+        }
+        return -1;
+    }
+
+    private static function _contains($a, $list) {
+        return self::_indexOf($list, $a, 0) >= 0;
+    }
+
     private static function _xgroupBy() {
         // TODO
     }
@@ -498,6 +517,22 @@ class R {
 
         self::$flatten = self::_curry1(function($list) {
             return self::flattRecursive($list);
+        });
+
+        self::$partition = self::_curry2(function($pred, $list) {
+            return (self::$reduce)(function($acc, $elt) use($pred){
+                $xs = $acc[$pred($elt) ? 0 : 1];
+                array_push($xs, $elt);
+                return $acc;
+            }, [[],[]], $list);
+        });
+
+        self::$indexOf = self::_curry2(function($target, $xs) {
+            return self::_indexOf($xs, $target, 0);
+        });
+
+        self::$contains = self::_curry2(function($a, $list) {
+            return self::_contains($a, $list);
         });
 
         self::$zip = self::_curry2(function($a, $b) {
