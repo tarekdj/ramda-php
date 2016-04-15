@@ -199,18 +199,36 @@ class ArrayTests extends PHPUnit_Framework_TestCase
      //    $this->assertEquals(((R::$partition)((R::$contains)('s'), ['sss', 'ttt', 'foo', 'bars'])), [['sss', 'bars'],['ttt','foo']]);
      // }
 
+     public function test_groupBy() {
+        $byGrade = (R::$groupBy)(function($student) {
+            $score = $student['score'];
+            return $score < 65 ? 'F' :
+                   ($score < 70 ? 'D' :
+                   ($score < 80 ? 'C' :
+                   ($score < 90 ? 'B' : 'A')));
+        });
+        $students = [['name' => 'Abby', 'score' => 84],
+                      ['name' => 'Eddy', 'score' => 58],
+                      ['name' => 'Jack', 'score' => 69]];
+
+        $expected = ['D' => [['name' => 'Jack', 'score' => 69]],
+                     'B' => [['name' => 'Abby', 'score' => 84]],
+                     'F' => [['name' => 'Eddy', 'score' => 58]]];
+        $this->assertEquals($byGrade($students), $expected);
+     }
+
      public function test_indexOf() {
         $this->assertEquals((R::$indexOf)(3, [1,2,3,4]), 2);
         $this->assertEquals((R::$indexOf)(10, [1,2,3,4]), -1);
      }
-/*
-    public function test_flip() {
-        $mergeThree = function($a, $b, $c) {
-            return [$a, $b, $c];
-        };
-        $this->assertEquals(((R::$flip)($mergeThree))(1,2,3), [2,1,3]);
-    }
-*/
+
+    // public function test_flip() {
+    //     $mergeThree = function($a, $b, $c) {
+    //         return [$a, $b, $c];
+    //     };
+    //     $this->assertEquals(((R::$flip)($mergeThree))(1,2,3), [2,1,3]);
+    // }
+
 /*
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));

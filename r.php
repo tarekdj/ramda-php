@@ -47,6 +47,7 @@ class R {
     public static $contains;
     public static $partition;
     public static $indexOf;
+    public static $groupBy;
 
     public static $tail;
     public static $init;
@@ -410,20 +411,6 @@ class R {
         return self::_indexOf($list, $a, 0) >= 0;
     }
 
-    private static function _xgroupBy() {
-        // TODO
-    }
-/*
-    public static function groupBy($fn, $list) {
-        $groupBy = self::_reduce(function($acc, $elt) use($fn, $list){
-            $key = $fn($elf);
-            $acc[$key] = self::append($elt, $acc[$key] || ($acc[$key]=[]));
-            return $acc;
-        }, {}, $list);
-        return self::_curry2(self::_dispatchable('groupBy', self::x_groupBy, $groupBy));
-    }
-*/
-
     public static function _map($fn, $functor) {
         return array_map($fn, $functor);
     }
@@ -534,6 +521,17 @@ class R {
 
         self::$indexOf = self::_curry2(function($target, $xs) {
             return self::_indexOf($xs, $target, 0);
+        });
+
+        self::$groupBy = self::_curry2(function($fn, $list) {
+            return (self::$reduce)(function($acc, $elt) use($fn, $list) {
+                $key = $fn($elt);
+                if(!array_key_exists($key, $acc)) {
+                    $acc[$key] = [];
+                }
+                array_push($acc[$key], $elt);
+                return  $acc;
+            }, [], $list);
         });
 
         self::$contains = self::_curry2(function($a, $list) {
@@ -776,17 +774,18 @@ class R {
             usort($l, $comparator);
             return $l;
         });
-/*
-        self::$flip = self::_curry1(function($fn) {
-            return self::_curry2(function($a, $b) use($fn){
-                $arguments = func_get_args();
-                $a = $arguments[0];
-                $arguments[0] = $arguments[1];
-                $arguments[1] = $a;
-                return call_user_func_array($fn, $arguments);
-            });
-        });
-*/
+
+        // self::$flip = self::_curry1(function($fn) {
+        //     return self::_curry2(function() use($fn){
+        //         $arguments = func_get_args();
+        //         $a = $arguments[0];
+        //         $arguments[0] = $arguments[1];
+        //         $arguments[1] = $a;
+
+        //         return call_user_func_array($fn, $arguments);
+        //     });
+        // });
+
         self::$_pipe = function ($f, $g) {
             return function() use($f, $g){
                 $arguments = func_get_args();
@@ -820,7 +819,7 @@ class R {
         });
 
         self::$take = self::_curry2(function ($n, $xs) {
-            return (self::$slice)(0, $n < 0 ? Infinity : $n, $xs);
+            return (self::$slice)(0, $n < 0 ? INF : $n, $xs);
         });
 
         self::$useWith = self::_curry2(function($fn, $transformers) {

@@ -23,4 +23,8 @@ class ExampleTests extends PHPUnit_Framework_TestCase
     	$this->assertEquals(array_values($incomplete_records)[0]['task'], 'hard');
     }
 
+    public function test_why_ramda_example2() {
+        
+    }
+
 }
