@@ -70,7 +70,7 @@ class OtherTests extends PHPUnit_Framework_TestCase
     //     $f = (R::$compose)(R::$inc, R::$negate);
     //     $this->assertEquals($f(3), -2);        
     // }
-/*
+
     public function test_chain() {
         $duplicate = function($n) {
             return [$n, $n];
@@ -78,5 +78,4 @@ class OtherTests extends PHPUnit_Framework_TestCase
 
         $this->assertEquals((R::$chain)($duplicate, [1,2,3]), [1,1,2,2,3,3]);
     }
-    */
 }

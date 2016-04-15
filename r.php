@@ -572,14 +572,7 @@ class R {
         self::$of = self::_curry1(function($x) {return [$x];});
 
         self::$chain = self::_curry2(function($fn, $monad) {
-            if(is_callable($monad)) {
-                return function() use($monad) {
-                    //return $modnad.call()?? TODO
-                };
-            }
-            return function() use($fn, $monad) {
-                return self::flatt(self::$map($fn, $monad));
-            };
+            return (self::$flatten)((self::$map)($fn, $monad));
         });
 
         self::$equals = self::_curry2(function($a,$b) {
