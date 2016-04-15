@@ -40,6 +40,16 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertTrue((R::$propSatisfies)(function($x) {return $x>0;}, 'x', ['x'=>1, 'y'=>2]));
     }
 
+    public function test_propEq() {
+        $abby = ['name' => 'Abby', 'age' => 7, 'hair' => 'blond'];
+        $fred = ['name' => 'Fred', 'age' => 12, 'hair' => 'brown'];
+        $rusty = ['name' => 'Rusty', 'age' => 10, 'hair' => 'brown'];
+        $alois = ['name' => 'Alois', 'age' => 15, 'disposition' => 'surly'];
+        $kids = [$abby, $fred, $rusty, $alois];
+        $hasBrownHair = (R::$propEq)('hair', 'brown');
+        $this->assertEquals(array_values((R::$filter)($hasBrownHair, $kids)), [$fred, $rusty]);
+    }
+
     public function test_filter() {
         $isEven = function($n) {
           return $n % 2 === 0;  

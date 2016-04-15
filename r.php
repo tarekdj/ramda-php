@@ -29,6 +29,7 @@ class R {
     public static $prop;
     public static $propOr;
     public static $propSatisfies;
+    public static $propEq;
     public static $filter;
     public static $map;
     public static $reduce;
@@ -501,6 +502,10 @@ class R {
         self::$propSatisfies = self::_curry3(function($pred, $p, $obj) {
             return $pred((self::$prop)($p, $obj));
 
+        });
+
+        self::$propEq = self::_curry3(function($name, $val, $obj) {
+            return (self::$propSatisfies)((self::$equals)($val), $name, $obj);
         });
 
         self::$map = self::_curry2(function($fn, $functor) {
