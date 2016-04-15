@@ -914,7 +914,7 @@ class R {
             if(is_string($list)) {
                 return implode((self::$reverse)(split('', $list)),'');
             }
-            return (self::$reverse)(self::_slice($list));
+            return array_reverse($list);
         });
 
         self::$pair = self::_curry2(function($e1, $e2) {return [$e1, $e2];});

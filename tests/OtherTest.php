@@ -66,10 +66,10 @@ class OtherTests extends PHPUnit_Framework_TestCase
             ["x" => 'x2', "y" => 'y4', "z" => 'z6']);
     }
 
-    // public function test_compose() {
-    //     $f = (R::$compose)(R::$inc, R::$negate);
-    //     $this->assertEquals($f(3), -2);        
-    // }
+    public function test_compose() {
+        $f = (R::$compose)(R::$inc, R::$negate);
+        $this->assertEquals($f(3), -2);        
+    }
 
     public function test_chain() {
         $duplicate = function($n) {
