@@ -148,10 +148,9 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$sort)($diff, [4,2,7,5]), [2, 4, 5, 7]);
     }
 
-    // TODO:
-    // public function test_once() {
-    //     $addOneOnce = (R::$once)(R::$inc);
-    //     $this->assertEquals($addOneOnce(10), 11);
-    //     $this->assertEquals($addOneOnce(50), 11);
-    // }
+    public function test_once() {
+        $addOneOnce = (R::$once)(R::$inc);
+        $this->assertEquals($addOneOnce(10), 11);
+        $this->assertEquals($addOneOnce(50), 11);
+    }
 }

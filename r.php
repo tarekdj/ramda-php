@@ -654,25 +654,23 @@ class R {
             };
         });
 
-       // self::$once = self::_curry1(function($fn) {
-       //      $called = false;
-       //      $result = null;
-       //      return self::_arity(self::getParametersCount($fn), function() use($fn, $called, $result){
-       //          if (!$called) {
-       //              $called = new static();
-       //              $result = new static();
-       //              $called = false;
-       //          }
+       self::$once = self::_curry1(function($fn) {
+            $called = false;
+            $result = null;
+            return self::_arity(self::getParametersCount($fn), function() use($fn, &$called, &$result){
+                if (!$called) {
+                    $called = false;
+                }
 
-       //          if ($called) {
-       //              return $result;
-       //          }
-       //          static $called = true;
-       //          $arguments = func_get_args();
-       //          $result = call_user_func_array($fn, $arguments);
-       //          return $result;
-       //      });
-       // });
+                if ($called) {
+                    return $result;
+                }
+                $called = true;
+                $arguments = func_get_args();
+                $result = call_user_func_array($fn, $arguments);
+                return $result;
+            });
+       });
 
         self::$concat = self::_curry2(function($set1, $set2) {
             if(is_string($set1) || is_string($set2)) {
