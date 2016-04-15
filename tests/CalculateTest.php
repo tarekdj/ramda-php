@@ -41,7 +41,7 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertFalse((R::$identical)(1, '1'));
         //$this->assertFalse((R::$identical)([], []));
         //$this->assertFalse((R::$identical)(0, -0));
-        $this->asserttrue((R::$identical)(NAN, NAN));
+        $this->assertTrue((R::$identical)(NAN, NAN));
     }
 
     public function test_identity() {
@@ -64,6 +64,13 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($half(42), 21);
         $reciprocal = (R::$divide)(1);
         $this->assertEquals($reciprocal(4), 0.25);
+    }
+
+    public function test_modulo() {
+        $this->assertEquals((R::$modulo)(17, 3),2);
+        $isOdd = (R::$modulo)(R::$_, 2);
+        $this->assertFalse((bool)($isOdd(42)));
+        $this->assertTrue((bool)($isOdd(21)));
     }
 
     public function test_min() {

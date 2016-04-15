@@ -52,7 +52,7 @@ class ArrayTests extends PHPUnit_Framework_TestCase
 
     public function test_filter() {
         $isEven = function($n) {
-          return $n % 2 === 0;  
+          return $n % 2 === 0;
         };
         $this->assertEquals(array_values((R::$filter)($isEven, [1, 2, 3, 4])), [2,4]);
         $this->assertEquals((R::$filter)($isEven, ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['b'=>2, 'd'=>4]);
@@ -87,6 +87,21 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     //     $this->assertEquals((R::$reverse)('ab'), 'ba');
     //     $this->assertEquals((R::$reverse)('a'), 'a');
     //     $this->assertEquals((R::$reverse)(''), '');
+    // }
+
+    // public function test_empty() {
+    //     //$this->assertEquals((R::$empty)(Just(42)); Nothing
+    //     $this->assertEquals((R::$empty)([1, 2, 3])  , []);
+    //     $this->assertEquals((R::$empty)('unicorns') , '');
+    //     $this->assertEquals((R::$empty)(['x'=>1, 'y'=>2]), []);
+    // }
+
+    // public function test_isEmpty() {
+    //     $this->assertTrue((R::$isEmpty)([]));
+    //     $this->assertTrue((R::$isEmpty)(''));
+    //     $this->assertFalse((R::$isEmpty)([1, 2, 3]));
+    //     $this->assertFalse((R::$isEmpty)(null));
+    //     $this->assertFalse((R::$isEmpty)(['length'=> 0]));
     // }
 
     public function test_pair() {
@@ -170,7 +185,7 @@ class ArrayTests extends PHPUnit_Framework_TestCase
 
     public function test_adjust() {
         $this->assertEquals(array_diff((R::$adjust)((R::$add)(10), 1, [0,1,2]), [0,11,2]), []);
-        //$this->assertEquals(array_diff((R::$adjust)((R::$add)(10))(1)([0,1,2]), [0,11,2]), []);   // TODO
+        //$this->assertEquals(array_diff((R::$adjust)((R::$add)(10))(1)([0,1,2]), [0,11,2]), []);
     }
 
     public function test_prepend() {

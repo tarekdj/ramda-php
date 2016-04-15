@@ -12,6 +12,7 @@ class R {
     public static $dec;
     public static $multiply;
     public static $divide;
+    public static $modulo;
     public static $max;
     public static $min;
     public static $pow;     // added
@@ -48,6 +49,8 @@ class R {
     public static $partition;
     public static $indexOf;
     public static $groupBy;
+    public static $isEmpty;
+    public static $empty;
 
     public static $tail;
     public static $init;
@@ -534,9 +537,26 @@ class R {
             }, [], $list);
         });
 
+        self::$empty = self::_curry1(function($x) {
+            if($x == null) {
+                return null;
+            }
+            if(is_array($x)) {
+                return [];
+            }
+            if(is_string($x)) {
+                return '';
+            }
+            return $x;
+        });
+
         self::$contains = self::_curry2(function($a, $list) {
             return self::_contains($a, $list);
         });
+
+        // self::$isEmpty = self::_curry1(function($x) {
+        //     return $x != null && (self::$equals)($x, (self::$empty)($x));
+        // });
 
         self::$zip = self::_curry2(function($a, $b) {
             $rv = [];
@@ -617,6 +637,9 @@ class R {
         });
         self::$divide = self::_curry2(function($a, $b) {
             return $a / $b;
+        });
+        self::$modulo = self::_curry2(function($a, $b) {
+            return $a % $b;
         });
 
         self::$pow = self::_curry2(function($a, $b) {
@@ -912,7 +935,7 @@ class R {
 
         self::$reverse = self::_curry1(function($list) {
             if(is_string($list)) {
-                return implode((self::$reverse)(split('', $list)),'');
+                return (self::$reverse)(implode('', $list));
             }
             return array_reverse($list);
         });
