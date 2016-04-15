@@ -12,6 +12,7 @@ class ExampleTests extends PHPUnit_Framework_TestCase
     {
     }
 
+    // Example from: http://fr.umio.us/why-ramda/
     public function test_why_ramda_example1() {
     	$incomplete = (R::$filter)((R::$whereEq)(['complete'=>false]));
 
@@ -55,6 +56,37 @@ class ExampleTests extends PHPUnit_Framework_TestCase
         ];
 
         // TODO: add assertion
+    }
+
+    //Example from: http://buzzdecafe.github.io/code/2014/05/16/introducing-ramda
+    public function test_introducing_ramda() {
+        $validUsersNamedBuzz = (R::$filter)((R::$where)(['name' => 'Buzz', 'errors' => (R::$isEmpty)]));
+        
+        // `prop` takes two arguments. If I just give it one, I get a function back
+        $moo = (R::$prop)('moo');
+        // when I call that function with one argument, I get the result.
+        $this->assertEquals($moo(['moo' => 'cow']), 'cow');
+
+
+        $amtAdd1Mod7 = (R::$compose)((R::$modulo)(R::$_, 7), (R::$add)(1), (R::$prop)('amount'));
+
+        // we can use that as is:
+        $this->assertEquals($amtAdd1Mod7(['amount' => 17]),4);
+        $this->assertEquals($amtAdd1Mod7(['amount' => 987]),1);
+        $this->assertEquals($amtAdd1Mod7(['amount' => 68]),6);
+        // etc. 
+        
+        // But we can also use our composed function on a list of objects, e.g. to `map`:
+        $amountObjects = [
+          ['amount' => 903], ['amount' => 2875654], ['amount' => 6]
+        ];
+        $this->assertEquals((R::$map)($amtAdd1Mod7, $amountObjects), [1,6,0]);
+
+        // of course, `map` is also curried, so you can generate a new function 
+        // using `amtAdd1Mod7` that will wait for a list of "amountObjects" to 
+        // get passed in:
+        $amountsToValue = (R::$map)($amtAdd1Mod7);
+        $this->assertEquals($amountsToValue($amountObjects), [1, 6, 0]);
     }
 
 }
