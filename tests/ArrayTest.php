@@ -58,6 +58,15 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$filter)($isEven, ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['b'=>2, 'd'=>4]);
     }
 
+    public function test_reject() {
+        $isOdd = function($n) {
+          return $n % 2 === 1;
+        };
+        $this->assertEquals(array_values((R::$reject)($isOdd, [1, 2, 3, 4])), [2,4]);
+        $this->assertEquals((R::$reject)($isOdd, ['a'=>1, 'b'=>2, 'c'=>3, 'd'=>4]), ['b'=>2, 'd'=>4]);
+
+    }
+
     public function test_map() {
         $double = function($x) {
           return $x * 2;

@@ -34,6 +34,7 @@ class R {
     public static $filter;
     public static $map;
     public static $reduce;
+    public static $reject;
     public static $concat;
     public static $reverse;
     public static $pair;
@@ -103,6 +104,8 @@ class R {
     public static $mapObjIndexed;
     public static $project;
     public static $useWith;
+
+    public static $_complement;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
@@ -513,6 +516,18 @@ class R {
         self::$flatten = self::_curry1(function($list) {
             return self::flattRecursive($list);
         });
+
+        self::$_complement = function($fn) {
+            return function() use($fn) {
+                $arguments = func_get_args();
+                return !call_user_func_array($fn, $arguments);
+            };
+        };
+
+        self::$reject = self::_curry2(function($pred, $filterable) {
+            return (self::$filter)((self::$_complement)($pred), $filterable);
+        });
+
 
         self::$partition = self::_curry2(function($pred, $list) {
             return (self::$reduce)(function($acc, $elt) use($pred){

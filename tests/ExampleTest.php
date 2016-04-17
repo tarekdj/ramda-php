@@ -126,11 +126,13 @@ class ExampleTests extends PHPUnit_Framework_TestCase
             (R::$sortBy)((R::$prop)('dueDate')),
             (R::$map)((R::$pick)(['id', 'dueDate', 'title', 'priority'])),
             (R::$reject)((R::$propEq)('complete', true)),
-            (R::$filter)((R.propEq)('username', $membername)),
+            (R::$filter)((R::$propEq)('username', $membername)),
             (R::$prop)('tasks'));
         };
 
         // TODO: add assertion
+        // print_r(($getIncompleteTaskSummaries)("Mike")($data));
+        //$this->assertEquals(($getIncompleteTaskSummaries("Mike"))($data), []);
     }
 
 }
