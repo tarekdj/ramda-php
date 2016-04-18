@@ -1,0 +1,239 @@
+# ramda-php
+
+This is an attempt to implement ramda.js-equvalent into PHP.
+
+So far only the curry functions and part of the functions implemented. The development is actively in progress
+
+### Implemented Methods
+
+- [x] add
+- [ ] addIndex
+- [x] adjust
+- [x] all
+- [ ] allPass
+- [ ] allUniq
+- [x] always
+- [x] and
+- [ ] any
+- [x] anyPass
+- [ ] ap
+- [ ] aperture
+- [x] append
+- [x] apply
+- [ ] applySpec
+- [x] assoc
+- [ ] assocPath
+- [ ] binary
+- [ ] bind
+- [x] both
+- [ ] call
+- [x] chain
+- [ ] clamp
+- [ ] clone
+- [x] comparator
+- [x] complement
+- [x] compose
+- [ ] composeK
+- [ ] composeP
+- [x] concat
+- [ ] cond
+- [ ] construct
+- [ ] constructN
+- [x] contains
+- [ ] converge
+- [ ] countBy
+- [x] curry
+- [x] curryN
+- [x] dec
+- [ ] defaultTo
+- [ ] difference
+- [ ] differenceWith
+- [ ] dissoc
+- [ ] dissocPath
+- [x] divide
+- [ ] drop
+- [ ] dropLast
+- [ ] dropLastWhile
+- [ ] dropRepeats
+- [ ] dropRepeatsWith
+- [ ] dropWhile
+- [ ] either
+- [ ] empty
+- [ ] eqBy
+- [ ] eqProps
+- [x] equals
+- [ ] evolve
+- [x] filter
+- [ ] find
+- [ ] findIndex
+- [ ] findLast
+- [ ] findLastIndex
+- [x] flatten
+- [ ] flip
+- [ ] forEach
+- [ ] fromPairs
+- [ ] groupBy
+- [x] gt
+- [x] gte
+- [x] has
+- [ ] hasIn
+- [ ] head
+- [x] identical
+- [x] identity
+- [ ] ifElse
+- [x] inc
+- [ ] indexBy
+- [x] indexOf
+- [x] init
+- [ ] insert
+- [ ] insertAll
+- [ ] internal
+- [ ] intersection
+- [ ] intersectionWith
+- [ ] intersperse
+- [ ] into
+- [ ] invert
+- [ ] invertObj
+- [ ] invoker
+- [ ] is
+- [ ] isArrayLike
+- [ ] isEmpty
+- [ ] isNil
+- [ ] join
+- [ ] juxt
+- [x] keys
+- [ ] keysIn
+- [ ] last
+- [ ] lastIndexOf
+- [ ] length
+- [ ] lens
+- [ ] lensIndex
+- [ ] lensPath
+- [ ] lensProp
+- [ ] lift
+- [ ] liftN
+- [x] lt
+- [x] lte
+- [x] map
+- [ ] mapAccum
+- [ ] mapAccumRight
+- [ ] mapObjIndexed
+- [ ] match
+- [ ] mathMod
+- [x] max
+- [ ] maxBy
+- [ ] mean
+- [ ] median
+- [ ] memoize
+- [ ] merge
+- [ ] mergeAll
+- [ ] mergeWith
+- [ ] mergeWithKey
+- [x] min
+- [ ] minBy
+- [x] modulo
+- [ ] multiply
+- [ ] nAry
+- [x] negate
+- [ ] none
+- [x] not
+- [x] nth
+- [ ] nthArg
+- [ ] objOf
+- [x] of
+- [ ] omit
+- [x] once
+- [x] or
+- [ ] over
+- [x] pair
+- [ ] partial
+- [ ] partialRight
+- [x] partition
+- [ ] path
+- [ ] pathEq
+- [ ] pathOr
+- [ ] pathSatisfies
+- [x] pick
+- [x] pickAll
+- [ ] pickBy
+- [ ] pipe
+- [ ] pipeK
+- [ ] pipeP
+- [ ] pluck
+- [x] prepend
+- [ ] product
+- [x] project
+- [x] prop
+- [x] propEq
+- [ ] propIs
+- [x] propOr
+- [x] propSatisfies
+- [ ] props
+- [ ] range
+- [x] reduce
+- [ ] reduceBy
+- [ ] reduceRight
+- [ ] reduced
+- [x] reject
+- [ ] remove
+- [ ] repeat
+- [ ] replace
+- [x] reverse
+- [ ] scan
+- [ ] sequence
+- [ ] set
+- [x] slice
+- [x] sort
+- [x] sortBy
+- [ ] split
+- [ ] splitAt
+- [ ] splitEvery
+- [ ] splitWhen
+- [x] subtract
+- [x] sum
+- [ ] symmetricDifference
+- [ ] symmetricDifferenceWith
+- [x] tail
+- [x] take
+- [ ] takeLast
+- [ ] takeLastWhile
+- [ ] takeWhile
+- [ ] tap
+- [ ] test
+- [x] times
+- [x] toLower
+- [ ] toPairs
+- [ ] toPairsIn
+- [ ] toString
+- [ ] toUpper
+- [ ] transduce
+- [ ] transpose
+- [ ] traverse
+- [ ] trim
+- [ ] tryCatch
+- [ ] type
+- [ ] unapply
+- [ ] unary
+- [ ] uncurryN
+- [ ] unfold
+- [ ] union
+- [ ] unionWith
+- [ ] uniq
+- [ ] uniqBy
+- [ ] uniqWith
+- [ ] unless
+- [ ] unnest
+- [ ] update
+- [x] useWith
+- [x] values
+- [ ] valuesIn
+- [ ] view
+- [ ] when
+- [x] where
+- [x] whereEq
+- [ ] without
+- [ ] wrap
+- [ ] xprod
+- [x] zip
+- [ ] zipObj
+- [ ] zipWith
