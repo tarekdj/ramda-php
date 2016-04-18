@@ -304,22 +304,20 @@ class R {
         */
     }
 
-    public static function _slice($args, $from, $to) {
-        $arguments = func_get_args();
-        switch(count($arguments)) {
-            case 1:
-                return self::_slice($args, 0, count($args));
-            case 2:
-                return self::_slice($args, $from, count($args));
-            default:
-                $list = [];
-                $idx = 0;
-                $len = max(0, min(count($args), $to) - $from);
-                while($idx < $len) {
-                    $list[$idx] = $args[$from + $idx];
-                    $idx += 1;
-                }
-                return $list;
+    public static function _slice($args, $from = null, $to = null) {
+        if($from === null) {
+            return self::_slice($args, 0, count($args));
+        } else if($to === null) {
+            return self::_slice($args, $from, count($args));
+        } else {
+            $list = [];
+            $idx = 0;
+            $len = max(0, min(count($args), $to) - $from);
+            while($idx < $len) {
+                $list[$idx] = $args[$from + $idx];
+                $idx += 1;
+            }
+            return $list;
         }
     }
 
@@ -722,7 +720,11 @@ class R {
 
         self::$sortBy = self::_curry2(function($fn, $list) {
             $array = self::_slice($list);
-            usort($array, $fn);
+            usort($array, function($a,$b) use($fn) {
+                $aa = $fn($a);
+                $bb = $fn($b);
+                return $aa < $bb ? -1 : ($aa > $bb ? 1 : 0);
+            });
             return $array;
         });
 

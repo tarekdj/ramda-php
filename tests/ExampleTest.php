@@ -36,26 +36,27 @@ class ExampleTests extends PHPUnit_Framework_TestCase
 
         $people = [
             'Michael' => [
-                ['dueDate' => '2014-06-22', 'title' => 'Integrate types with main code'],
-                ['dueDate' => '2014-06-15', 'title' => 'Finish algebraic types'],
-                ['dueDate' => '2014-06-06', 'title' => 'Types infrastucture'],
-                ['dueDate' => '2014-05-24', 'title' => 'Separating generators'],
-                ['dueDate' => '2014-05-17', 'title' => 'Add modulo function']
+                ['dueDate' => '2014-06-22', 'title' => 'Integrate types with main code', 'complete' => false],
+                ['dueDate' => '2014-06-15', 'title' => 'Finish algebraic types', 'complete' => false],
+                ['dueDate' => '2014-06-06', 'title' => 'Types infrastucture', 'complete' => false],
+                ['dueDate' => '2014-05-24', 'title' => 'Separating generators', 'complete' => false],
+                ['dueDate' => '2014-05-17', 'title' => 'Add modulo function', 'complete' => true]
             ],
             'Richard' => [
-                ['dueDate' => '2014-06-22', 'title' => 'API documentation'],
-                ['dueDate' => '2014-06-15', 'title' => 'Overview documentation']
+                ['dueDate' => '2014-06-22', 'title' => 'API documentation', 'complete' => true],
+                ['dueDate' => '2014-06-15', 'title' => 'Overview documentation', 'complete' => false]
             ],
             'Scott' => [
-                ['dueDate' => '2014-06-22', 'title' => 'Complete build system'],
-                ['dueDate' => '2014-06-15', 'title' => 'Determine versioning scheme'],
-                ['dueDate' => '2014-06-09', 'title' => 'Add `mapObj`'],
-                ['dueDate' => '2014-06-05', 'title' => 'Fix `and`/`or`/`not`'],
-                ['dueDate' => '2014-06-01', 'title' => 'Fold algebra branch back in']
+                ['dueDate' => '2014-06-22', 'title' => 'Complete build system', 'complete' => false],
+                ['dueDate' => '2014-06-15', 'title' => 'Determine versioning scheme', 'complete' => false],
+                ['dueDate' => '2014-06-09', 'title' => 'Add `mapObj`', 'complete' => false],
+                ['dueDate' => '2014-06-05', 'title' => 'Fix `and`/`or`/`not`', 'complete' => true],
+                ['dueDate' => '2014-06-01', 'title' => 'Fold algebra branch back in', 'complete' => true]
             ]
         ];
 
         // TODO: add assertion
+        //$this->assertEquals($incomplete($people), []);
     }
 
     //Example from: http://buzzdecafe.github.io/code/2014/05/16/introducing-ramda

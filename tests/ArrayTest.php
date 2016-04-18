@@ -253,12 +253,12 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     //     $this->assertEquals(((R::$flip)($mergeThree))(1,2,3), [2,1,3]);
     // }
 
-/*
+
     public function test_sortBy() {
         $sortByFirstItem = (R::$sortBy)((R::$prop)(0));
         $sortByNameCaseInsensitive = (R::$sortBy)((R::$compose)(R::$toLower, (R::$prop)('name')));
         $pairs = [[-1, 1], [-2, 2], [-3, 3]];
-        $result = sortByFirstItem($pairs);
+        $result = $sortByFirstItem($pairs);
         $this->assertEquals($result, [[-3, 3], [-2, 2], [-1, 1]]);
 
         $alice = ['name'=>'ALICE', 'age' =>101];
@@ -269,5 +269,5 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, [$alice, $bob, $clara]);
 
     }
-*/
+
 }
