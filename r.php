@@ -400,6 +400,10 @@ class R {
     }
 
     private static function _indexOf($list, $a, $idx) {
+        if(is_string($list)) {
+            $r = strpos($list, $a);
+            return is_int($r) ? $r : -1;
+        }
         $l = count($list);
         while($idx < $l) {
             $item = $list[$idx];
@@ -529,8 +533,7 @@ class R {
 
         self::$partition = self::_curry2(function($pred, $list) {
             return (self::$reduce)(function($acc, $elt) use($pred){
-                $xs = $acc[$pred($elt) ? 0 : 1];
-                array_push($xs, $elt);
+                array_push($acc[$pred($elt) ? 0 : 1], $elt);
                 return $acc;
             }, [[],[]], $list);
         });

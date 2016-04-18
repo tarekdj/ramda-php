@@ -219,9 +219,9 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertTrue((R::$contains)([42], [[42]]));
      }
 
-     // public function test_partition() {
-     //    $this->assertEquals(((R::$partition)((R::$contains)('s'), ['sss', 'ttt', 'foo', 'bars'])), [['sss', 'bars'],['ttt','foo']]);
-     // }
+     public function test_partition() {
+        $this->assertEquals(((R::$partition)((R::$contains)('s'), ['sss', 'ttt', 'foo', 'bars'])), [['sss', 'bars'],['ttt','foo']]);
+     }
 
      public function test_groupBy() {
         $byGrade = (R::$groupBy)(function($student) {
