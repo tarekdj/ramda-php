@@ -52,6 +52,7 @@ class R {
     public static $groupBy;
     public static $isEmpty;
     public static $empty;
+    public static $xprod;
 
     public static $tail;
     public static $init;
@@ -566,6 +567,27 @@ class R {
             }
             return $x;
         });
+
+        self::$xprod = self::_curry2(function ($a, $b) {
+            $idx = 0;
+            $ilen = count($a);
+            $j;
+            $jlen = count($b);
+            $result = [];
+            while ($idx < $ilen) {
+                $j = 0;
+                while ($j < $jlen) {
+                    array_push($result, [
+                        $a[$idx],
+                        $b[$j]
+                    ]);
+                    $j += 1;
+                }
+                $idx += 1;
+            }
+            return $result;
+        });
+
 
         self::$contains = self::_curry2(function($a, $list) {
             return self::_contains($a, $list);
