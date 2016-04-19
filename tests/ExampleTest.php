@@ -25,38 +25,45 @@ class ExampleTests extends PHPUnit_Framework_TestCase
     }
 
     public function test_why_ramda_example2() {
-        $incomplete = (R::$filter)((R::$where)(['complete'=> false]));
+        $incomplete = (R::$filter)((R::$whereEq)(['complete'=> false]));
         $sortByDate = (R::$sortBy)((R::$prop)('dueDate'));
         $sortByDateDescend = (R::$compose)((R::$reverse), $sortByDate);
         $importantFields = (R::$project)(['title', 'dueDate']);
-        $groupByUser = (R::$partition)((R::$prop)('username'));
+        $groupByUser = (R::$groupBy)((R::$prop)('username'));
         $activeByUser = (R::$compose)($groupByUser, $incomplete);
         $topDataAllUsers = (R::$compose)((R::$mapObjIndexed)((R::$compose)($importantFields, 
             (R::$take)(5), $sortByDateDescend)), $activeByUser);
 
-        $people = [
-            'Michael' => [
-                ['dueDate' => '2014-06-22', 'title' => 'Integrate types with main code', 'complete' => false],
-                ['dueDate' => '2014-06-15', 'title' => 'Finish algebraic types', 'complete' => false],
-                ['dueDate' => '2014-06-06', 'title' => 'Types infrastucture', 'complete' => false],
-                ['dueDate' => '2014-05-24', 'title' => 'Separating generators', 'complete' => false],
-                ['dueDate' => '2014-05-17', 'title' => 'Add modulo function', 'complete' => true]
-            ],
-            'Richard' => [
-                ['dueDate' => '2014-06-22', 'title' => 'API documentation', 'complete' => true],
-                ['dueDate' => '2014-06-15', 'title' => 'Overview documentation', 'complete' => false]
-            ],
-            'Scott' => [
-                ['dueDate' => '2014-06-22', 'title' => 'Complete build system', 'complete' => false],
-                ['dueDate' => '2014-06-15', 'title' => 'Determine versioning scheme', 'complete' => false],
-                ['dueDate' => '2014-06-09', 'title' => 'Add `mapObj`', 'complete' => false],
-                ['dueDate' => '2014-06-05', 'title' => 'Fix `and`/`or`/`not`', 'complete' => true],
-                ['dueDate' => '2014-06-01', 'title' => 'Fold algebra branch back in', 'complete' => true]
-            ]
+        $tasks = [
+            ['username' => 'Michael', 'dueDate' => '2014-06-22', 'title' => 'Integrate types with main code', 'complete' => false],
+            ['username' => 'Michael', 'dueDate' => '2014-06-15', 'title' => 'Finish algebraic types', 'complete' => false],
+            ['username' => 'Michael', 'dueDate' => '2014-06-06', 'title' => 'Types infrastucture', 'complete' => false],
+            ['username' => 'Michael', 'dueDate' => '2014-05-24', 'title' => 'Separating generators', 'complete' => false],
+            ['username' => 'Michael', 'dueDate' => '2014-05-17', 'title' => 'Add modulo function', 'complete' => true],
+            ['username' => 'Richard', 'dueDate' => '2014-06-22', 'title' => 'API documentation', 'complete' => true],
+            ['username' => 'Richard', 'dueDate' => '2014-06-15', 'title' => 'Overview documentation', 'complete' => false],
+            ['username' => 'Scott', 'dueDate' => '2014-06-22', 'title' => 'Complete build system', 'complete' => false],
+            ['username' => 'Scott', 'dueDate' => '2014-06-15', 'title' => 'Determine versioning scheme', 'complete' => false],
+            ['username' => 'Scott', 'dueDate' => '2014-06-09', 'title' => 'Add `mapObj`', 'complete' => false],
+            ['username' => 'Scott', 'dueDate' => '2014-06-05', 'title' => 'Fix `and`/`or`/`not`', 'complete' => true],
+            ['username' => 'Scott', 'dueDate' => '2014-06-01', 'title' => 'Fold algebra branch back in', 'complete' => true]
         ];
 
         // TODO: add assertion
-        //$this->assertEquals($incomplete($people), []);
+        $sorted_tasks = $sortByDate($tasks);
+        $this->assertEquals($sorted_tasks[0]['dueDate'], '2014-05-17');
+        $this->assertEquals($sorted_tasks[count($sorted_tasks)-1]['dueDate'], '2014-06-22');
+        $sorted_tasks = $sortByDateDescend($tasks);
+        $this->assertEquals($sorted_tasks[0]['dueDate'], '2014-06-22');
+        $this->assertEquals($sorted_tasks[count($sorted_tasks)-1]['dueDate'], '2014-05-17');
+        $incomplete_tasks = $incomplete($tasks);
+        $this->assertEquals(count($incomplete_tasks), 8);
+        $groups = $topDataAllUsers($tasks);
+        $this->assertEquals(array_keys($groups), ['Michael', 'Richard', 'Scott']);
+        $this->assertEquals(count($groups['Michael']), 4);
+        $this->assertEquals(count($groups['Richard']), 1);
+        $this->assertEquals(count($groups['Scott']), 3);
+        $this->assertEquals($groups['Richard'][0]['title'], 'Overview documentation');
     }
 
     //Example from: http://buzzdecafe.github.io/code/2014/05/16/introducing-ramda
