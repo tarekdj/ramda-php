@@ -49,7 +49,6 @@ class ExampleTests extends PHPUnit_Framework_TestCase
             ['username' => 'Scott', 'dueDate' => '2014-06-01', 'title' => 'Fold algebra branch back in', 'complete' => true]
         ];
 
-        // TODO: add assertion
         $sorted_tasks = $sortByDate($tasks);
         $this->assertEquals($sorted_tasks[0]['dueDate'], '2014-05-17');
         $this->assertEquals($sorted_tasks[count($sorted_tasks)-1]['dueDate'], '2014-06-22');
@@ -114,7 +113,7 @@ class ExampleTests extends PHPUnit_Framework_TestCase
                 ['id' => 105, 'complete' => false,            'priority' => "medium",
                           'dueDate' => "2013-11-22",      'username' => "Lena",
                           'title' => "Do something else", 'created' => "9/22/2013"],
-                ['id' => 107, 'complete' => true,             'priority' => "high",
+                ['id' => 107, 'complete' => false,             'priority' => "high",
                           'dueDate' => "2013-11-22",      'username' => "Mike",
                           'title' => "Fix the foo",       'created' => "9/22/2013"],
                 ['id' => 108, 'complete' => false,            'priority' => "low",
@@ -125,12 +124,19 @@ class ExampleTests extends PHPUnit_Framework_TestCase
                           'title' => "Rename everything", 'created' => "10/2/2013"],
                 ['id' => 112, 'complete' => true,             'priority' => "high",
                           'dueDate' => "2013-11-27",      'username' => "Lena",
-                          'title' => "Alter all quuxes",  'created' => "10/5/2013"]
+                          'title' => "Alter all quuxes",  'created' => "10/5/2013"],
+                ['id' => 122, 'complete' => false,             'priority' => "high",
+                          'dueDate' => "2013-11-01",      'username' => "Mike",
+                          'title' => "Fix the bar",       'created' => "9/22/2013"],
+                ['id' => 123, 'complete' => true,             'priority' => "high",
+                          'dueDate' => "2013-11-22",      'username' => "Mike",
+                          'title' => "Fix the foobar",       'created' => "9/22/2013"],
+
             ]
         ];
 
         $getIncompleteTaskSummaries = function($membername) {
-          (R::$compose)(
+          return (R::$compose)(
             (R::$sortBy)((R::$prop)('dueDate')),
             (R::$map)((R::$pick)(['id', 'dueDate', 'title', 'priority'])),
             (R::$reject)((R::$propEq)('complete', true)),
@@ -138,9 +144,10 @@ class ExampleTests extends PHPUnit_Framework_TestCase
             (R::$prop)('tasks'));
         };
 
-        // TODO: add assertion
-        // print_r(($getIncompleteTaskSummaries)("Mike")($data));
-        //$this->assertEquals(($getIncompleteTaskSummaries("Mike"))($data), []);
+        $tasks = $getIncompleteTaskSummaries("Mike")($data);
+        $this->assertEquals(count($tasks), 2);
+        $this->assertEquals(array_keys($tasks[0]), ['id', 'dueDate', 'title', 'priority']);
+        $this->assertEquals($tasks[1]['id'], 107);
     }
 
 }

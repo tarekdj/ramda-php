@@ -313,8 +313,9 @@ class R {
             $list = [];
             $idx = 0;
             $len = max(0, min(count($args), $to) - $from);
+            $keys = array_keys($args);
             while($idx < $len) {
-                $list[$idx] = $args[$from + $idx];
+                $list[$idx] = $args[$keys[$from + $idx]];
                 $idx += 1;
             }
             return $list;
