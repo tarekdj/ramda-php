@@ -1,8 +1,8 @@
 # ramda-php
 
-This is an attempt to implement ramda.js-equvalent into PHP.
+This is a PHP implementation of ramda.js - a functional programming library. (http://ramdajs.com/)
 
-So far only the curry functions and part of the functions implemented. The development is actively in progress
+So far only the curry functions and part of the functions implemented. The library is capable of doing the what's in the ramda.js examples.
 
 ### Implemented Methods
 
@@ -237,3 +237,105 @@ So far only the curry functions and part of the functions implemented. The devel
 - [x] zip
 - [ ] zipObj
 - [ ] zipWith
+- 
+### How to Use
+
+Compose functions:
+
+```
+  require_once 'ramda.php';
+  
+  $getIncompleteTaskSummaries = function($membername) {
+    return (R::$compose)(
+      (R::$sortBy)((R::$prop)('dueDate')),
+      (R::$map)((R::$pick)(['id', 'dueDate', 'title', 'priority'])),
+      (R::$reject)((R::$propEq)('complete', true)),
+      (R::$filter)((R::$propEq)('username', $membername)),
+      (R::$prop)('tasks'));
+  };
+
+```
+
+Use the function on data:
+```
+  $data = [
+      'result' => "SUCCESS",
+      'interfaceVersion' => "1.0.3",
+      'requested' => "10/17/2013 15:31:20",
+      'lastUpdated' => "10/16/2013 10:52:39",
+      'tasks' => [
+          ['id' => 104, 'complete' => false,            'priority' => "high",
+                    'dueDate' => "2013-11-29",      'username' => "Scott",
+                    'title' => "Do something",      'created' => "9/22/2013"],
+          ['id' => 105, 'complete' => false,            'priority' => "medium",
+                    'dueDate' => "2013-11-22",      'username' => "Lena",
+                    'title' => "Do something else", 'created' => "9/22/2013"],
+          ['id' => 107, 'complete' => false,             'priority' => "high",
+                    'dueDate' => "2013-11-22",      'username' => "Mike",
+                    'title' => "Fix the foo",       'created' => "9/22/2013"],
+          ['id' => 108, 'complete' => false,            'priority' => "low",
+                    'dueDate' => "2013-11-15",      'username' => "Punam",
+                    'title' => "Adjust the bar",    'created' => "9/25/2013"],
+          ['id' => 110, 'complete' => false,            'priority' => "medium",
+                    'dueDate' => "2013-11-15",      'username' => "Scott",
+                    'title' => "Rename everything", 'created' => "10/2/2013"],
+          ['id' => 112, 'complete' => true,             'priority' => "high",
+                    'dueDate' => "2013-11-27",      'username' => "Lena",
+                    'title' => "Alter all quuxes",  'created' => "10/5/2013"],
+          ['id' => 122, 'complete' => false,             'priority' => "high",
+                    'dueDate' => "2013-11-01",      'username' => "Mike",
+                    'title' => "Fix the bar",       'created' => "9/22/2013"],
+          ['id' => 123, 'complete' => true,             'priority' => "high",
+                    'dueDate' => "2013-11-22",      'username' => "Mike",
+                    'title' => "Fix the foobar",       'created' => "9/22/2013"],
+
+      ]
+  ];
+  $tasks = $getIncompleteTaskSummaries("Mike")($data);
+  print_r($tasks);
+```
+
+Outputs:
+
+```
+(
+    [0] => Array
+        (
+            [id] => 122
+            [dueDate] => 2013-11-01
+            [title] => Fix the bar
+            [priority] => high
+        )
+
+    [1] => Array
+        (
+            [id] => 107
+            [dueDate] => 2013-11-22
+            [title] => Fix the foo
+            [priority] => high
+        )
+
+)
+```
+
+Note: as a defect of PHP compiler, static method ```R::$add(1,2)``` wouldn't compile. To get around, place the static method inside parenthesis ```(R::$add)(1,2)```
+
+Curry functions:
+
+(Note: ```R::$_``` is the placeholder parameter.)
+
+```
+  $f3 = function($a, $b, $c) {
+      return $a*2+$b*3+$c*4;
+  };
+  $c = R::curry($f3);
+  $cc = $c(R::$_,2,R::$_);
+  print_r($cc(1,3));
+```
+Outputs:
+
+```
+  20
+```
+
+(More examples can be found in the /tests folder.)
