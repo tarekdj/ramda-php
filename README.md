@@ -237,7 +237,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] zip
 - [ ] zipObj
 - [ ] zipWith
-- 
+
 ### How to Use
 
 Compose functions:
