@@ -14,7 +14,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] allUniq
 - [x] always
 - [x] and
-- [ ] any
+- [x] any
 - [x] anyPass
 - [ ] ap
 - [ ] aperture
@@ -57,7 +57,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] dropRepeats
 - [ ] dropRepeatsWith
 - [ ] dropWhile
-- [ ] either
+- [x] either
 - [ ] empty
 - [ ] eqBy
 - [ ] eqProps
@@ -77,7 +77,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] gte
 - [x] has
 - [ ] hasIn
-- [ ] head
+- [x] head
 - [x] identical
 - [x] identity
 - [ ] ifElse
@@ -103,7 +103,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] juxt
 - [x] keys
 - [ ] keysIn
-- [ ] last
+- [x] last
 - [ ] lastIndexOf
 - [ ] length
 - [ ] lens
@@ -156,7 +156,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] pick
 - [x] pickAll
 - [ ] pickBy
-- [ ] pipe
+- [x] pipe
 - [ ] pipeK
 - [ ] pipeP
 - [ ] pluck
@@ -233,7 +233,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] whereEq
 - [ ] without
 - [ ] wrap
-- [ ] xprod
+- [x] xprod
 - [x] zip
 - [ ] zipObj
 - [ ] zipWith
