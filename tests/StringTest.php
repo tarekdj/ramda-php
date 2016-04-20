@@ -25,6 +25,15 @@ class StringTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(((R::$join)('|'))([1,2,3]), '1|2|3');
     }
 
+    public function test_split() {
+        $this->assertEquals(((R::$split)('.'))('a.b.c.xyz.d'), ['a', 'b', 'c', 'xyz', 'd']);
+    }
+
+    public function test_trim() {
+        $this->assertEquals((R::$trim)('   xyz  '), 'xyz');
+        $this->assertEquals((R::$map)(R::$trim, (R::$split)(',', 'x, y, z')), ['x', 'y', 'z']);
+    }
+
 
 
 }

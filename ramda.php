@@ -25,6 +25,8 @@ class R {
     public static $toLower;
     public static $toUpper;
     public static $join;
+    public static $split;
+    public static $trim;
 
     public static $keys;
     public static $values;
@@ -761,6 +763,13 @@ class R {
         self::$join = self::_curry2(function($c, $arr) {
             return implode($c, $arr);
         });
+        self::$split = self::_curry2(function($c, $str) {
+            return explode($c, $str);
+        });
+        self::$trim = self::_curry1(function($s) {
+            return trim($s);
+        });
+
 
         self::$_identity = function($x) {return $x;};
         self::$identity = self::_curry1(self::$_identity);
