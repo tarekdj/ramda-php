@@ -754,8 +754,10 @@ class R {
             return $array;
         });
 
-        self::$toLower = self::_curry1(strtolower);
-        self::$toUpper = self::_curry1(strtoupper);
+        self::$toLower = self::_curry1(function($s) {
+            return strtolower($s);});
+        self::$toUpper = self::_curry1(function($s) {
+            return strtoupper($s);});
 
         self::$_identity = function($x) {return $x;};
         self::$identity = self::_curry1(self::$_identity);
