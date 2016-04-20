@@ -20,6 +20,11 @@ class StringTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$toUpper)('abc'), 'ABC');
     }
 
+    public function test_join() {
+        $this->assertEquals(((R::$join)(' '))(['a',2,3.4]), 'a 2 3.4');
+        $this->assertEquals(((R::$join)('|'))([1,2,3]), '1|2|3');
+    }
+
 
 
 }

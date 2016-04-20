@@ -99,7 +99,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] isArrayLike
 - [ ] isEmpty
 - [ ] isNil
-- [ ] join
+- [x] join
 - [ ] juxt
 - [x] keys
 - [ ] keysIn
@@ -205,7 +205,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] toPairs
 - [ ] toPairsIn
 - [ ] toString
-- [ ] toUpper
+- [x] toUpper
 - [ ] transduce
 - [ ] transpose
 - [ ] traverse

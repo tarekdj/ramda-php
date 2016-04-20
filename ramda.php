@@ -24,6 +24,7 @@ class R {
 
     public static $toLower;
     public static $toUpper;
+    public static $join;
 
     public static $keys;
     public static $values;
@@ -757,6 +758,9 @@ class R {
             return strtolower($s);});
         self::$toUpper = self::_curry1(function($s) {
             return strtoupper($s);});
+        self::$join = self::_curry2(function($c, $arr) {
+            return implode($c, $arr);
+        });
 
         self::$_identity = function($x) {return $x;};
         self::$identity = self::_curry1(self::$_identity);
