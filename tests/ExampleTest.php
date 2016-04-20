@@ -1,5 +1,5 @@
 <?php
-require_once 'ramda.php';
+require_once './ramda.php';
 
 
 class ExampleTests extends PHPUnit_Framework_TestCase
@@ -144,7 +144,7 @@ class ExampleTests extends PHPUnit_Framework_TestCase
             (R::$prop)('tasks'));
         };
 
-        $tasks = $getIncompleteTaskSummaries("Mike")($data);
+        $tasks = ($getIncompleteTaskSummaries("Mike"))($data);
         $this->assertEquals(count($tasks), 2);
         $this->assertEquals(array_keys($tasks[0]), ['id', 'dueDate', 'title', 'priority']);
         $this->assertEquals($tasks[1]['id'], 107);
