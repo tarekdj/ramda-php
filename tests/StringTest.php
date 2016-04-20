@@ -1,5 +1,5 @@
 <?php
-require_once 'ramda.php';
+require_once './ramda.php';
 
 
 class StringTests extends PHPUnit_Framework_TestCase

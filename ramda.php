@@ -571,7 +571,6 @@ class R {
         self::$xprod = self::_curry2(function ($a, $b) {
             $idx = 0;
             $ilen = count($a);
-            $j;
             $jlen = count($b);
             $result = [];
             while ($idx < $ilen) {
@@ -826,7 +825,7 @@ class R {
 
         self::$comparator = self::_curry1(function($pred) {
             return function($a,$b) use($pred){
-                return $pred($a, $b) ? -1 : $pred($b, $a) ? 1 : 0;
+                return $pred($a, $b) ? -1 : ($pred($b, $a) ? 1 : 0);
             };
         });
 

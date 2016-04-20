@@ -1,5 +1,5 @@
 <?php
-require_once 'ramda.php';
+require_once './ramda.php';
 
 
 class OtherTests extends PHPUnit_Framework_TestCase
@@ -45,10 +45,10 @@ class OtherTests extends PHPUnit_Framework_TestCase
     }
 
     public function test_useWith() {
-        $this->assertEquals((R::$useWith)(R::$multiply, [R::$identity, R::$identity])(3, 4), 12);
-        $this->assertEquals((R::$useWith)(R::$multiply, [R::$identity, R::$identity])(3)(4), 12);
-        $this->assertEquals((R::$useWith)(R::$multiply, [R::$dec, R::$inc])(3, 4), 10);
-        $this->assertEquals((R::$useWith)(R::$multiply, [R::$dec, R::$inc])(3)(4), 10);
+        $this->assertEquals(((R::$useWith)(R::$multiply, [R::$identity, R::$identity]))(3, 4), 12);
+        $this->assertEquals((((R::$useWith)(R::$multiply, [R::$identity, R::$identity]))(3))(4), 12);
+        $this->assertEquals(((R::$useWith)(R::$multiply, [R::$dec, R::$inc]))(3, 4), 10);
+        $this->assertEquals((((R::$useWith)(R::$multiply, [R::$dec, R::$inc]))(3))(4), 10);
     }
 
     public function test_projection() {
