@@ -67,6 +67,14 @@ class ArrayTests extends PHPUnit_Framework_TestCase
 
     }
 
+    public function test_foreach() {
+        $double = function(&$x) {
+          return $x = $x * 2;
+        };
+        $list = [1,2,3];
+        $this->assertEquals((R::$foreach)($double, $list), [1, 2, 3]);
+    }
+
     public function test_map() {
         $double = function($x) {
           return $x * 2;
@@ -131,6 +139,12 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$flatten)([1,2,[3,4],5,[6,[7,8,[9,10,11], 12]]]),
                             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     }
+
+    public function test_flatten1() {
+        $this->assertEquals((R::$flatten1)([1,2,[3,4],5,[6,[7,8,[9,10,11], 12]]]),
+                            [1, 2, 3, 4, 5, 6, [7, 8, [9, 10, 11], 12]]);
+    }
+
 
     public function test_nth() {
         $list = ["foo", "bar", "baz", "quux"];

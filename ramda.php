@@ -35,6 +35,7 @@ class R {
     public static $propSatisfies;
     public static $propEq;
     public static $filter;
+    public static $foreach;
     public static $map;
     public static $reduce;
     public static $reject;
@@ -44,6 +45,7 @@ class R {
     public static $pick;
     public static $pickAll;
     public static $flatten;
+    public static $flatten1;
     public static $zip;
     public static $adjust;
     public static $append;
@@ -508,6 +510,13 @@ class R {
             return (self::$propSatisfies)((self::$equals)($val), $name, $obj);
         });
 
+        self::$foreach = self::_curry2(function($fn, $list) {
+            foreach($list as $item) {
+                $fn($item);
+            }
+            return $list;
+        });
+
         self::$map = self::_curry2(function($fn, $functor) {
             return array_map($fn, $functor);
         });
@@ -522,6 +531,10 @@ class R {
 
         self::$flatten = self::_curry1(function($list) {
             return self::flattRecursive($list);
+        });
+
+        self::$flatten1 = self::_curry1(function($list) {
+            return self::flatt($list);
         });
 
         self::$_complement = function($fn) {

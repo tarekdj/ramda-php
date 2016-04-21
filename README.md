@@ -70,9 +70,9 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] findLastIndex
 - [x] flatten
 - [ ] flip
-- [ ] forEach
+- [x] forEach
 - [ ] fromPairs
-- [ ] groupBy
+- [x] groupBy
 - [x] gt
 - [x] gte
 - [x] has
@@ -237,6 +237,9 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] zip
 - [ ] zipObj
 - [ ] zipWith
+
+### Introduced Methods
+R::$flatten1 - flatten in non-recursive way (for 1 depth only).
 
 ### How to Use
 
