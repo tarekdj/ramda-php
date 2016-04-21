@@ -72,7 +72,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] flip
 - [ ] forEach
 - [ ] fromPairs
-- [ ] groupBy
+- [x] groupBy
 - [x] gt
 - [x] gte
 - [x] has

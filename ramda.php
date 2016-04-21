@@ -350,15 +350,16 @@ class R {
     private static function flattRecursive($list) {
         $result = [];
         $ilen = count($list);
+        $keys = array_keys($list);
         for($idx = 0; $idx < $ilen; $idx++) {
-            if(is_array($list[$idx])) {
-                $value = self::flattRecursive($list[$idx]);
+            if(is_array($arr = $list[$keys[$idx]])) {
+                $value = self::flattRecursive($arr);
                 $jlen = count($value);
                 for($j = 0; $j < $jlen; $j++) {
                     array_push($result, $value[$j]);
                 }
             } else {
-                array_push($result, $list[$idx]);
+                array_push($result, $list[$keys[$idx]]);
             }
         }
         return $result;
