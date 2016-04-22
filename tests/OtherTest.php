@@ -78,4 +78,15 @@ class OtherTests extends PHPUnit_Framework_TestCase
 
         $this->assertEquals((R::$chain)($duplicate, [1,2,3]), [1,1,2,2,3,3]);
     }
+
+    public function test_cond() {
+        $fn = (R::$cond)([
+            [(R::$equals)(0), (R::$always)("water freezes at 0°C")],
+            [(R::$equals)(100), (R::$always)("water boils at 100°C")],
+            [R::$T, function($temp) {return "nothing special at $temp °C";}],
+        ]);
+        $this->assertEquals(($fn)(0), "water freezes at 0°C");
+        $this->assertEquals(($fn)(100), "water boils at 100°C");
+        $this->assertEquals(($fn)(50), "nothing special at 50 °C");
+    }
 }

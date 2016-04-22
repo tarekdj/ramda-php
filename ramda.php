@@ -4,6 +4,7 @@ class PlaceHolder {}
 class R {
 	
 	public static $_;
+    public static $T;
 
     public static $add;
     public static $sum;
@@ -59,6 +60,11 @@ class R {
     public static $empty;
     public static $xprod;
 
+    public static $lensProp;
+    public static $view;
+    public static $set;
+    public static $over;
+
     public static $tail;
     public static $init;
     public static $nth;
@@ -99,6 +105,8 @@ class R {
     public static $compose;
     public static $chain;
     public static $flip;
+
+    public static $cond;
 
     private static $_has;
     private static $_identity;
@@ -816,6 +824,8 @@ class R {
             return function() use($val){return $val;};
         });
 
+        self::$T = (self::$always)(true);
+
         self::$any = self::_curry2(function($fn, $list) {
             $length = count($list);
             for($i=0;$i<$length;$i++) {
@@ -1046,6 +1056,17 @@ class R {
         });
 
         self::$project = (self::$useWith)(self::$map, [self::$pickAll, self::$identity]);
+
+        self::$cond = self::_curry1(function($pairs) {
+            return function() use($pairs) {
+                $arguments = func_get_args();
+                foreach($pairs as $pair) {
+                    if(call_user_func_array($pair[0], $arguments)) {
+                        return call_user_func_array($pair[1], $arguments);
+                    }
+                }                
+            };
+        });
 
     }
     
