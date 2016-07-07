@@ -68,7 +68,7 @@ class OtherTests extends PHPUnit_Framework_TestCase
 
     public function test_compose() {
         $f = (R::$compose)(R::$inc, R::$negate);
-        $this->assertEquals($f(3), -2);        
+        $this->assertEquals($f(3), -2);
     }
 
     public function test_chain() {
@@ -89,4 +89,19 @@ class OtherTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(($fn)(100), "water boils at 100°C");
         $this->assertEquals(($fn)(50), "nothing special at 50 °C");
     }
+
+    public function test_objOf() {
+      $matchPhrases = (R::$compose)((R::$objOf)('must'), (R::$map)((R::$objOf)('match_phrase')));
+      $this->assertEquals(($matchPhrases)(['foo', 'bar', 'baz']),
+      ['must'=>[['match_phrase'=>'foo'],['match_phrase'=>'bar'],['match_phrase'=>'baz']]]);
+
+    }
+/*
+    public function test_lens() {
+        $xLens = (R::$lens)((R::$prop)('x', (R::$assoc)('x')));
+        $this->assertEquals((R::$view)($xLens, ['x'=>1, 'y'=>2]), 1);
+        $this->assertEquals((R::$set)($xLens, 4, ['x'=>1, 'y'=>2]), ['x'=>4, 'y'=>2]);
+        $this->assertEquals((R::$view)($xLens, R::$negate, ['x'=>1, 'y'=>2]), ['x'=>-1, 'y'=>2]);
+    }
+*/
 }

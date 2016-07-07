@@ -106,12 +106,12 @@ class ArrayTests extends PHPUnit_Framework_TestCase
     //     $this->assertEquals((R::$reverse)(''), '');
     // }
 
-    // public function test_empty() {
-    //     //$this->assertEquals((R::$empty)(Just(42)); Nothing
-    //     $this->assertEquals((R::$empty)([1, 2, 3])  , []);
-    //     $this->assertEquals((R::$empty)('unicorns') , '');
-    //     $this->assertEquals((R::$empty)(['x'=>1, 'y'=>2]), []);
-    // }
+    public function test_empty() {
+        //$this->assertEquals((R::$empty)(Just(42)); Nothing
+        $this->assertEquals((R::$empty)([1, 2, 3])  , []);
+        $this->assertEquals((R::$empty)('unicorns') , '');
+        $this->assertEquals((R::$empty)(['x'=>1, 'y'=>2]), []);
+    }
 
     // public function test_isEmpty() {
     //     $this->assertTrue((R::$isEmpty)([]));

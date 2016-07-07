@@ -1,8 +1,8 @@
-<?php 
+<?php
 class PlaceHolder {}
 
 class R {
-	
+
 	public static $_;
     public static $T;
 
@@ -60,6 +60,7 @@ class R {
     public static $empty;
     public static $xprod;
 
+    public static $lens;
     public static $lensProp;
     public static $view;
     public static $set;
@@ -75,6 +76,7 @@ class R {
     public static $sortBy;
     public static $identity;
     public static $has;
+    public static $uniq;
 
     public static $where;
     public static $whereEq;
@@ -118,6 +120,7 @@ class R {
     public static $mapObjIndexed;
     public static $project;
     public static $useWith;
+		public static $objOf;
 
     public static $_complement;
 
@@ -167,7 +170,7 @@ class R {
             }
         };
     }
-    
+
 
     private static function _curry3($fn) {
         return $f3 = function ($a = null, $b = null, $c = null) use($fn) {
@@ -214,7 +217,7 @@ class R {
             $arguments = func_get_args();
             $n_received = count($received);
             $n_arguments = count($arguments);
-                        
+
             while ($combinedIdx < $n_received || $argsIdx < $n_arguments) {
                 if ($combinedIdx < $n_received && (!self::_isPlaceholder($received[$combinedIdx]) || $argsIdx >= $n_arguments)) {
                     $result = $received[$combinedIdx];
@@ -580,18 +583,6 @@ class R {
             }, [], $list);
         });
 
-        self::$empty = self::_curry1(function($x) {
-            if($x == null) {
-                return null;
-            }
-            if(is_array($x)) {
-                return [];
-            }
-            if(is_string($x)) {
-                return '';
-            }
-            return $x;
-        });
 
         self::$xprod = self::_curry2(function ($a, $b) {
             $idx = 0;
@@ -646,7 +637,7 @@ class R {
 
         self::$append = self::_curry2(function($el, $list) {
             return array_merge($list, [$el]);
-            
+
         });
         self::$prepend = self::_curry2(function($el, $list) {
             return array_merge([$el], $list);
@@ -723,7 +714,7 @@ class R {
         self::$both = self::_curry2(function($f, $g) {
             return function() use($f,$g){
                 $args = func_get_args();
-                return call_user_func_array($f, $args) 
+                return call_user_func_array($f, $args)
                         && call_user_func_array($g, $args);
             };
         });
@@ -731,7 +722,7 @@ class R {
        self::$either = self::_curry2(function($f, $g) {
             return function() use($f,$g){
                 $args = func_get_args();
-                return call_user_func_array($f, $args) 
+                return call_user_func_array($f, $args)
                         || call_user_func_array($g, $args);
             };
         });
@@ -776,6 +767,19 @@ class R {
                 return $aa < $bb ? -1 : ($aa > $bb ? 1 : 0);
             });
             return $array;
+        });
+
+        // self::$uniqBy = self::_curry2(function($fn, $list) {
+
+        // });
+        self::$empty = self::_curry1(function($x) {
+            if(is_array($x)) {
+                return [];
+            } else if(is_string($x)) {
+                return '';
+            } else {
+                return null;
+            }
         });
 
         self::$toLower = self::_curry1(function($s) {
@@ -914,6 +918,12 @@ class R {
                 return $acc;
             }, [], (self::$keys)($obj));
         });
+
+				self::$objOf = self::_curry2(function($name, $value){
+					$arr = [];
+					$arr[$name] = $value;
+					return $arr;
+				});
 
         self::$take = self::_curry2(function ($n, $xs) {
             return (self::$slice)(0, $n < 0 ? INF : $n, $xs);
@@ -1064,12 +1074,33 @@ class R {
                     if(call_user_func_array($pair[0], $arguments)) {
                         return call_user_func_array($pair[1], $arguments);
                     }
-                }                
+                }
             };
         });
 
+        self::$lens = self::_curry2(function($getter, $setter) {
+            return function($f) {
+                return function($s) use($f) {
+                    return (self::$map)(function($v) use($f, $s){
+                        return setter($v, $s);
+                    }, ($f)(($getter)($s)));
+                };
+            };
+        });
+
+        self::$view = function() {
+            $const = function($x) {
+                return ['value' => $x, 'map' => function() {
+                    return $this;
+                }];
+            };
+            return self::_curry2(function ($lens, $x) use($const, $x){
+                return $lens($const,$x)['value'];
+            });
+        };
+
     }
-    
+
 }
 
 R::initialize();

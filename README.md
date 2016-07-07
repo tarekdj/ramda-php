@@ -36,7 +36,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] composeK
 - [ ] composeP
 - [x] concat
-- [ ] cond
+- [x] cond
 - [ ] construct
 - [ ] constructN
 - [x] contains
