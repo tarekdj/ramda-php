@@ -160,4 +160,9 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($addOneOnce(10), 11);
         $this->assertEquals($addOneOnce(50), 11);
     }
+
+    public function test_range() {
+        $this->assertEquals((R::$range)(1,5), [1,2,3,4]);
+        $this->assertEquals((R::$range)(50,53), [50,51,52]);
+    }
 }

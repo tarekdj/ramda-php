@@ -22,6 +22,7 @@ class R {
     public static $both;
     public static $either;
     public static $once;
+		public static $range;
 
     public static $toLower;
     public static $toUpper;
@@ -744,6 +745,12 @@ class R {
                 return $result;
             });
        });
+
+			 self::$range = self::_curry2(function($from, $to) {
+				 $r = range($from, $to);
+				 array_pop($r);
+				 return $r;
+			 });
 
         self::$concat = self::_curry2(function($set1, $set2) {
             if(is_string($set1) || is_string($set2)) {
