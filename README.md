@@ -169,7 +169,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] propOr
 - [x] propSatisfies
 - [ ] props
-- [ ] range
+- [x] range
 - [x] reduce
 - [ ] reduceBy
 - [ ] reduceRight
