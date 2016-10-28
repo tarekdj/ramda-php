@@ -281,7 +281,11 @@ class ArrayTests extends PHPUnit_Framework_TestCase
         $people = [$clara, $bob, $alice];
         $result = $sortByNameCaseInsensitive($people);
         $this->assertEquals($result, [$alice, $bob, $clara]);
+    }
 
+    public function test_remove() {
+      $result = (R::$remove)(2, 3, [1,2,3,4,5,6,7,8]); //=> [1,2,6,7,8]
+      $this->assertEquals($result, [1,2,6,7,8]);
     }
 
     public function test_xprod() {

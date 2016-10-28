@@ -73,6 +73,7 @@ class R {
     public static $last;
     public static $head;
     public static $slice;
+    public static $remove;
 
     public static $sortBy;
     public static $identity;
@@ -870,6 +871,20 @@ class R {
             $result[$prop] = $val;
             return $result;
         });
+
+				self::$remove = self::_curry3(function($start, $count, $list){
+					$result = [];
+					$length = count($list);
+					$end = $start + $count;
+					for($i=0;$i<$length;$i++) {
+						if($i>=$start && $i<$end) {
+							continue;
+						}
+						$e = $list[$i];
+						array_push($result, $e);
+					}
+					return $result;
+				});
 
         self::$comparator = self::_curry1(function($pred) {
             return function($a,$b) use($pred){
