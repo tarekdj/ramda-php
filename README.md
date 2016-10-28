@@ -175,7 +175,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] reduceRight
 - [ ] reduced
 - [x] reject
-- [ ] remove
+- [x] remove
 - [ ] repeat
 - [ ] replace
 - [x] reverse
