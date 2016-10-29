@@ -96,6 +96,14 @@ class OtherTests extends PHPUnit_Framework_TestCase
       ['must'=>[['match_phrase'=>'foo'],['match_phrase'=>'bar'],['match_phrase'=>'baz']]]);
 
     }
+
+    public function test_defaultTo() {
+      $defaultTo42 = (R::$defaultTo)(42);
+      $this->assertEquals(($defaultTo42)(null),42);
+      $this->assertEquals(($defaultTo42)(100),100);
+      $this->assertEquals(($defaultTo42)('Ramda'),'Ramda');
+      $this->assertEquals(($defaultTo42)((float) 'NaN'),42);
+    }
 /*
     public function test_lens() {
         $xLens = (R::$lens)((R::$prop)('x', (R::$assoc)('x')));

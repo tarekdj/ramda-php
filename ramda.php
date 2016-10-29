@@ -23,6 +23,7 @@ class R {
     public static $either;
     public static $once;
 		public static $range;
+		public static $defaultTo;
 
     public static $toLower;
     public static $toUpper;
@@ -751,6 +752,10 @@ class R {
 				 $r = range($from, $to);
 				 array_pop($r);
 				 return $r;
+			 });
+
+			 self::$defaultTo = self::_curry2(function($d, $v) {
+				 return ($v == null || is_numeric($v) && is_nan($v)) ? $d : $v;
 			 });
 
         self::$concat = self::_curry2(function($set1, $set2) {

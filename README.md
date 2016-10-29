@@ -45,7 +45,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] curry
 - [x] curryN
 - [x] dec
-- [ ] defaultTo
+- [x] defaultTo
 - [ ] difference
 - [ ] differenceWith
 - [ ] dissoc
