@@ -1008,7 +1008,15 @@ class R {
             return $list;
         });
 
-        //self::$init = self::_curry
+        self::$ap = self::_curry2(function($fns, $values) {
+						$result = [];
+						foreach($fns as $fn) {
+							foreach($values as $v) {
+								array_push($result, call_user_func_array($fn, $v));
+							}
+						}
+						return $result;
+				});
 
 /*
         self::$liftN = self::_curry2(function($arity, $fn) {

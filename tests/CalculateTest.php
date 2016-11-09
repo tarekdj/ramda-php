@@ -165,4 +165,8 @@ class CalculateTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$range)(1,5), [1,2,3,4]);
         $this->assertEquals((R::$range)(50,53), [50,51,52]);
     }
+
+    public function test_ap() {
+      $this->assertEquals((R::$ap)([(R::$multiply)(2), (R::$add)(3)], [1,2,3]), [2, 4, 6, 4, 5, 6]);
+    }
 }
