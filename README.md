@@ -16,7 +16,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] and
 - [x] any
 - [x] anyPass
-- [ ] ap
+- [x] ap
 - [ ] aperture
 - [x] append
 - [x] apply
