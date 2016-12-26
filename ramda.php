@@ -67,6 +67,7 @@ class R {
     public static $view;
     public static $set;
     public static $over;
+		public static $test;
 
     public static $tail;
     public static $init;
@@ -752,6 +753,10 @@ class R {
 				 $r = range($from, $to);
 				 array_pop($r);
 				 return $r;
+			 });
+
+			 self::$test = self::_curry2(function($pattern, $str) {
+				 return preg_match($pattern, $str) > 0;
 			 });
 
 			 self::$defaultTo = self::_curry2(function($d, $v) {

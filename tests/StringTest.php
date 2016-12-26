@@ -34,6 +34,9 @@ class StringTests extends PHPUnit_Framework_TestCase
         $this->assertEquals((R::$map)(R::$trim, (R::$split)(',', 'x, y, z')), ['x', 'y', 'z']);
     }
 
-
+    public function test_test() {
+      $this->assertTrue((R::$test)('/^x/', 'xyz'));
+      $this->assertFalse((R::$test)('/^y/', 'xyz'));
+    }
 
 }
