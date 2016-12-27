@@ -198,8 +198,8 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] takeLast
 - [ ] takeLastWhile
 - [ ] takeWhile
-- [ ] tap
-- [ ] test
+- [x] tap
+- [x] test
 - [x] times
 - [x] toLower
 - [ ] toPairs
