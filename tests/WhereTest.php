@@ -17,7 +17,7 @@ class WhereTests extends PHPUnit_Framework_TestCase
 		$this->assertTrue((R::$equals)(1,1));
 		$this->assertFalse((R::$equals)(1,'1'));
 		$this->assertTrue((R::$equals)([1,2,3],[1,2,3]));
- 		
+
  		$a = [];
  		$a['v'] = $a;
  		$b = [];
@@ -64,6 +64,14 @@ class WhereTests extends PHPUnit_Framework_TestCase
     	$this->assertFalse((R::$not)(1));
     }
 
+    // public function test_complement() {
+    //   $isEven = function($n) {
+    //     return $n % 2 == 0;
+    //   }
+    //   $isOdd = (R::$complement)($isEven);
+    //   $this->assertTrue(($isOdd)(21));
+    //   $this->assertFalse($isOdd)(42));
+    // }
 
 
     public function test_whereEq() {

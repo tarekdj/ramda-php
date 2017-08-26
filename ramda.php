@@ -1017,7 +1017,7 @@ class R {
 						$result = [];
 						foreach($fns as $fn) {
 							foreach($values as $v) {
-								array_push($result, call_user_func_array($fn, $v));
+								array_push($result, call_user_func_array($fn, [$v]));
 							}
 						}
 						return $result;
