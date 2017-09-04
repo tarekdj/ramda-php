@@ -31,7 +31,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] clamp
 - [ ] clone
 - [x] comparator
-- [x] complement
+- [ ] complement
 - [x] compose
 - [ ] composeK
 - [ ] composeP
