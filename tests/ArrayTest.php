@@ -1,18 +1,8 @@
 <?php
-require_once './ramda.php';
 
-
-class ArrayTests extends PHPUnit_Framework_TestCase
+class ArrayTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
-    public function test_keys() {
+    public function testKeys() {
         $this->assertEquals((R::$keys)(['a'=>1, 'b'=>2, 'c'=>3]), ['a','b','c']);
     }
 

@@ -2,15 +2,8 @@
 require_once './ramda.php';
 
 
-class CalculateTests extends PHPUnit_Framework_TestCase
+class CalculateTests extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
 
     public function test_add() {
         $this->assertEquals((R::$add)(2,3), 5);

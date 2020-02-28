@@ -2,13 +2,13 @@
 require_once './ramda.php';
 
 
-class CurryTests extends PHPUnit_Framework_TestCase
+class CurryTests extends \PHPUnit\Framework\TestCase
 {
   protected static $f1;
   protected static $f2;
   protected static $f3;
 
-    protected function setUp()
+    protected function setUp(): void
     {
       self::$f1 = function($a) {
           return 2 * $a;
@@ -20,10 +20,6 @@ class CurryTests extends PHPUnit_Framework_TestCase
       self::$f3 = function($a, $b, $c) {
           return $a*2+$b*3+$c*4;
       };
-    }
-
-    protected function tearDown()
-    {
     }
 
     public function test_curry1() {

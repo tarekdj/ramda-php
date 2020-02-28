@@ -350,7 +350,16 @@ class R {
             throw new Exception("pipe requires at least one argument");
         }
 
-        return self::_arity(count($arguments[0]), (self::$reduce)(self::$_pipe, $arguments[0], self::tail($arguments)));
+        return self::_arity(self::_count($arguments[0]), (self::$reduce)(self::$_pipe, $arguments[0], self::tail($arguments)));
+    }
+
+    public function _count($fn) {
+	      try {
+          return (new ReflectionFunction($fn))->getNumberOfParameters();
+        }
+        catch (ReflectionException $exception) {
+          throw $exception;
+        }
     }
 
     public static function tail($array) {
@@ -1134,9 +1143,11 @@ class R {
                     return $this;
                 }];
             };
-            return self::_curry2(function ($lens, $x) use($const, $x){
+            $tocurry = function ($lens, $x) use($const){
                 return $lens($const,$x)['value'];
-            });
+            };
+
+            return self::_curry2($tocurry);
         };
 
     }

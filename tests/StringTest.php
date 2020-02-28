@@ -2,16 +2,8 @@
 require_once './ramda.php';
 
 
-class StringTests extends PHPUnit_Framework_TestCase
+class StringTests extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
     public function test_toLower() {
         $this->assertEquals((R::$toLower)('XYZ'), 'xyz');
     }

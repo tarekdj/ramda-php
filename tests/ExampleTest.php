@@ -2,16 +2,8 @@
 require_once './ramda.php';
 
 
-class ExampleTests extends PHPUnit_Framework_TestCase
+class ExampleTests extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
     // Example from: http://fr.umio.us/why-ramda/
     public function test_why_ramda_example1() {
     	$incomplete = (R::$filter)((R::$whereEq)(['complete'=>false]));

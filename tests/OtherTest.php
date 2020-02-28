@@ -2,17 +2,9 @@
 require_once './ramda.php';
 
 
-class OtherTests extends PHPUnit_Framework_TestCase
+class OtherTests extends \PHPUnit\Framework\TestCase
 {
     private static $value = null;
-
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
 
     public function test_tail() {
         $this->assertEquals(R::tail([1,2,3]), [2,3]);
@@ -42,6 +34,9 @@ class OtherTests extends PHPUnit_Framework_TestCase
     public function test_pipe() {
         $f = R::pipe(R::$negate, R::$inc);
         $this->assertEquals($f(3), -2);
+        $double = function ($x) { return $x*2; };
+        $f2 = R::pipe($double, R::$negate, R::$inc);
+        $this->assertEquals($f2(3, 4), -5);
     }
 
     public function test_useWith() {

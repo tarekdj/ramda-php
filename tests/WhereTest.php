@@ -2,16 +2,8 @@
 require_once './ramda.php';
 
 
-class WhereTests extends PHPUnit_Framework_TestCase
+class WhereTests extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
 
     public function test_equals() {
 		$this->assertTrue((R::$equals)(1,1));

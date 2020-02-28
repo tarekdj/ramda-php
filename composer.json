@@ -1,7 +1,10 @@
 {
-    "name": "yuhanz/ramda-php",
-    "description": "Functional programming library immitating ramdajs. https://github.com/yuhanz/ramda-php",
-    "require": {
-        "php": "^5.3.3 || ^7.0"
-    }
+  "name": "yuhanz/ramda-php",
+  "description": "Functional programming library immitating ramdajs. https://github.com/yuhanz/ramda-php",
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  }
 }
