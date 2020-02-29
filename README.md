@@ -7,7 +7,7 @@ So far only the curry functions and part of the functions implemented. The libra
 ### Implemented Methods
 
 - [x] add
-- [ ] addIndex
+- [x] addIndex
 - [x] adjust
 - [x] all
 - [ ] allPass

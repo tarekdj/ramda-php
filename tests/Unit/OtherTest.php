@@ -1,10 +1,36 @@
 <?php
-require_once './ramda.php';
-
+use RamdaPhp\R;
 
 class OtherTests extends \PHPUnit\Framework\TestCase
 {
     private static $value = null;
+
+    public function testConcat() {
+
+      $this->assertEquals(R::_concat([1, 2], [3, 4]), [1, 2, 3, 4]);
+    }
+
+    public function testAddIndex() {
+
+      $times2 = function ($x) {
+        return $x * 2;
+      };
+      $addIndexParam = function ($x, $idx) {
+        return (int)$x + (int)$idx;
+      };
+      $squareEnds = function ($x, $idx, $list) {
+        return ($idx === 0 || $idx === count($list) - 1) ? $x * $x : $x;
+      };
+
+      $mapIndexed = R::addIndex(R::$map);
+
+      $this->assertEquals($mapIndexed($times2, [1, 2, 3]), [2, 4, 6]);
+      $this->assertEquals($mapIndexed($addIndexParam, [8, 6, 7]), [8, 7, 9]);
+      $this->assertEquals($mapIndexed($squareEnds, [8, 6, 7, 5, 3, 0, 9]), [64, 6, 7, 5, 3, 0, 81]);
+
+      $makeSquareEnds = $mapIndexed($squareEnds);
+      $this->assertEquals($makeSquareEnds([8, 6, 7, 5, 3, 0, 9]), [64, 6, 7, 5, 3, 0, 81]);
+    }
 
     public function test_tail() {
         $this->assertEquals(R::tail([1,2,3]), [2,3]);

@@ -1,6 +1,5 @@
 <?php
-require_once './ramda.php';
-
+use RamdaPhp\R;
 
 class WhereTests extends \PHPUnit\Framework\TestCase
 {

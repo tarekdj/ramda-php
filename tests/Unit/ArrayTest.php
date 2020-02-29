@@ -1,12 +1,14 @@
 <?php
+use RamdaPhp\R;
 
 class ArrayTest extends \PHPUnit\Framework\TestCase
 {
+
     public function testKeys() {
         $this->assertEquals((R::$keys)(['a'=>1, 'b'=>2, 'c'=>3]), ['a','b','c']);
     }
 
-    public function test_values() {
+    public function testValues() {
         $this->assertEquals((R::$values)(['a'=>1, 'b'=>2, 'c'=>3]), [1,2,3]);
     }
 
