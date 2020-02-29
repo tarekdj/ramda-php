@@ -8,6 +8,7 @@ class R {
     public static $T;
 
     public static $add;
+    public static $addIndex;
     public static $sum;
     public static $negate;
     public static $inc;
@@ -709,6 +710,10 @@ class R {
 
         self::$add = self::_curry2(function($a, $b) {
             return $a + $b;
+        });
+
+        self::$addIndex = self::_curry1(function($a) {
+          return self::addIndex($a);
         });
 
         self::$sum = (self::$reduce)(self::$add, 0);

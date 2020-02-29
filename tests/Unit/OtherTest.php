@@ -30,6 +30,12 @@ class OtherTests extends \PHPUnit\Framework\TestCase
 
       $makeSquareEnds = $mapIndexed($squareEnds);
       $this->assertEquals($makeSquareEnds([8, 6, 7, 5, 3, 0, 9]), [64, 6, 7, 5, 3, 0, 81]);
+
+      $addIndex = R::$addIndex;
+      $mapidx = $addIndex(R::$map);
+      $this->assertEquals($mapidx($times2, [1, 2, 3]), [2, 4, 6]);
+      $this->assertEquals($mapidx($addIndexParam, [8, 6, 7]), [8, 7, 9]);
+
     }
 
     public function test_tail() {
