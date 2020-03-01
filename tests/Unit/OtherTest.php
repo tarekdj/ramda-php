@@ -138,6 +138,35 @@ class OtherTests extends \PHPUnit\Framework\TestCase
 
     }
 
+    public function testPathEq() {
+      $obj = json_decode('{
+        "a": 1,
+        "b": [
+          {"ba": 2},
+          {"ba": 3}
+        ]}');
+
+      // Returns true if the path matches the value.
+      $this->assertEquals(R::pathEq(['a'], 1, $obj), TRUE);
+      $this->assertEquals(R::pathEq(['b', 1, 'ba'], 3, $obj), TRUE);
+
+      // Returns false for non matches.
+      $this->assertEquals(R::pathEq(['a'], '1', $obj), false);
+      $this->assertEquals(R::pathEq(['b', 0, 'ba'], 3, $obj), false);
+
+      // Returns false for non existing values.
+      $this->assertEquals(R::pathEq(['c'], 'foo', $obj), false);
+      $this->assertEquals(R::pathEq(['c', 'd'], 'foo', $obj), false);
+
+      // Accepts empty path.
+      $this->assertEquals(R::pathEq([], 42, json_decode('{"a": 1, "b": 2}')), false);
+      $this->assertEquals(R::pathEq([], $obj, $obj), true);
+
+      // Has R.equals semantics
+      $this->assertEquals(R::pathEq(['value'], 0, '{value: -0}'), false);
+      $this->assertEquals(R::pathEq(['value'], -0, '{value: 0}'), false);
+    }
+
     public function test_tail() {
         $this->assertEquals(R::tail([1,2,3]), [2,3]);
         $this->assertEquals(R::tail([1,2]), [2]);

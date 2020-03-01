@@ -151,7 +151,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] partition
 - [x] paths
 - [x] path
-- [ ] pathEq
+- [x] pathEq
 - [ ] pathOr
 - [ ] pathSatisfies
 - [x] pick

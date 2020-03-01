@@ -28,6 +28,7 @@ class R {
     public static $defaultTo;
     public static $paths;
     public static $path;
+    public static $pathEq;
 
     public static $toLower;
     public static $toUpper;
@@ -542,6 +543,12 @@ class R {
     return (self::paths([$pathAr], $obj))[0];
   }
 
+  public static function pathEq($_path, $val, $obj) {
+	$eq = self::$equals;
+    return $eq(self::path($_path, $obj), $val);
+  }
+
+
 
   public static function allPass($preds) {
 	  //return self::curryN(self::$reduce(self::$max, 0, ))
@@ -587,6 +594,10 @@ class R {
 
         self::$path = self::_curry2(function ($apthArrays, $obj) {
           return self::path($apthArrays, $obj);
+        });
+
+        self::$pathEq = self::_curry3(function ($_path, $val, $obj) {
+          return self::pathEq($_path, $val, $obj);
         });
 
         self::$keys = self::_curry1(function($obj) {
