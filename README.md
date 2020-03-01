@@ -149,6 +149,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [ ] partial
 - [ ] partialRight
 - [x] partition
+- [x] paths
 - [ ] path
 - [ ] pathEq
 - [ ] pathOr

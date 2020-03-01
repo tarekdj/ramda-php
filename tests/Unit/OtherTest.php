@@ -38,6 +38,52 @@ class OtherTests extends \PHPUnit\Framework\TestCase
 
     }
 
+    public function testPaths() {
+      $obj = json_decode('{
+        "a": {
+          "b": {
+            "c": 1,
+            "d": 2
+          }
+        },
+        "p": [{"q": 3}, "Hi"],
+        "x": {
+          "y": "Alice",
+          "z": [[{}]]
+        }
+      }');
+
+      // Takes paths and returns values at those paths.
+      $this->assertEquals(R::paths([['a', 'b', 'c'], ['x', 'y']], $obj), [1, 'Alice']);
+      $this->assertEquals(R::paths([['a', 'b', 'd'], ['p', 'q']], $obj), [2, null]);
+
+      // Takes a paths that contains indices into arrays.
+      $this->assertEquals(R::paths([['p', 0, 'q'], ['x', 'z', 0, 0]], $obj), [3, (new stdClass())]);
+      $this->assertEquals(R::paths([['p', 0, 'q'], ['x', 'z', 2, 1]], $obj), [3, null]);
+
+      // Takes a path that contains negative indices into arrays.
+      $this->assertEquals(R::paths([['p', -2, 'q'], ['p', -1]], $obj), [3, 'Hi']);
+      $this->assertEquals(R::paths([['p', -4, 'q'], ['x', 'z', -1, 0]], $obj), [null, (new stdClass())]);
+
+      // Gets a deep property's value from objects.
+      $this->assertEquals(R::paths([['a', 'b']], $obj), [$obj->a->b]);
+      $this->assertEquals(R::paths([['p', 0]], $obj), [$obj->p[0]]);
+
+      // Returns undefined for items not found.
+      $this->assertEquals(R::paths([['a', 'x', 'y']], $obj), [null]);
+      $this->assertEquals(R::paths([['p', 2]], $obj), [null]);
+
+      // Other tests.
+      $paths = R::$paths;
+      $this->assertEquals($paths([['a', 'x', 'y']], $obj), [null]);
+      $this->assertEquals($paths([['p', 0]], $obj), [$obj->p[0]]);
+      $this->assertEquals($paths([['p', -2, 'q'], ['p', -1]], $obj), [3, 'Hi']);
+      $this->assertEquals($paths([['a', 'b', 'c'], ['x', 'y']], $obj), [1, 'Alice']);
+      $this->assertEquals($paths([['a', 'b', 'd'], ['p', 'q']], $obj), [2, null]);
+      $this->assertEquals($paths([['p', 0, 'q'], ['x', 'z', 0, 0]], $obj), [3, (new stdClass())]);
+
+    }
+
     public function test_tail() {
         $this->assertEquals(R::tail([1,2,3]), [2,3]);
         $this->assertEquals(R::tail([1,2]), [2]);

@@ -24,8 +24,9 @@ class R {
     public static $both;
     public static $either;
     public static $once;
-		public static $range;
-		public static $defaultTo;
+    public static $range;
+    public static $defaultTo;
+    public static $paths;
 
     public static $toLower;
     public static $toUpper;
@@ -506,6 +507,50 @@ class R {
 	  return $f;
     }
 
+    public static function paths($pathsArray, $obj) {
+	  return array_map(function ($paths) use ($obj) {
+	    $val = $obj;
+	    $idx = 0;
+	    while ($idx < count($paths)) {
+	      //var_dump($paths[$idx]);
+	      if ($val == null) {
+            return;
+          }
+	      if (!isset($paths[$idx])) {
+	        return;
+          }
+	      $p = $paths[$idx];
+	      $nth = self::$nth;
+	      $val = is_int($p) ? $nth($p, $val) : (isset($val->$p) ? $val->$p : null);
+
+	      $idx += 1;
+        }
+        return $val;
+      }, $pathsArray);
+    }
+
+    public static function allPass($preds) {
+	  //return self::curryN(self::$reduce(self::$max, 0, ))
+
+/*
+      var allPass = _curry1(function allPass(preds) {
+        return curryN(reduce(max, 0, pluck('length', preds)), function() {
+          var idx = 0;
+          var len = preds.length;
+          while (idx < len) {
+            if (!preds[idx].apply(this, arguments)) {
+              return false;
+            }
+            idx += 1;
+          }
+          return true;
+        });
+      });
+
+	  */
+
+    }
+
     private static function _checkForMethod($methodname, $fn) {
         return function() use($methodname, $fn){
             $arguments = func_get_args();
@@ -521,6 +566,10 @@ class R {
 
     public static function initialize() {
         self::$_ = new PlaceHolder();
+
+        self::$paths = self::_curry2(function ($apthArrays, $obj) {
+          return self::paths($apthArrays, $obj);
+        });
 
         self::$keys = self::_curry1(function($obj) {
             return array_keys($obj);
