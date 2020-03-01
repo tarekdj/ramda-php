@@ -128,6 +128,11 @@ class OtherTests extends \PHPUnit\Framework\TestCase
       $this->assertEquals(R::path(['a', 'b', 'c'], $deepObject), 'c');
       $this->assertEquals(R::path(['a'], $deepObject), $deepObject->a);
 
+      // Returns undefined for items not found.
+      $this->assertEquals(R::path(['a', 'b', 'foo'], $deepObject), null);
+      $this->assertEquals(R::path(['bar'], $deepObject), null);
+      $this->assertEquals(R::path(['a', 'b'], json_decode('{"a": null}')), null);
+
       // Works with falsy items'.
       $this->assertEquals(R::path(['toString'], false), '');
 
