@@ -27,6 +27,7 @@ class R {
     public static $range;
     public static $defaultTo;
     public static $paths;
+    public static $path;
 
     public static $toLower;
     public static $toUpper;
@@ -357,12 +358,21 @@ class R {
     }
 
     public static function _count($fn) {
-	      try {
-          return (new \ReflectionFunction($fn))->getNumberOfParameters();
+	    if (is_array($fn)) {
+	      return count($fn);
         }
-        catch (\ReflectionException $exception) {
-          throw $exception;
+	    elseif (is_callable($fn)) {
+          try {
+            return (new \ReflectionFunction($fn))->getNumberOfParameters();
+          }
+          catch (\ReflectionException $exception) {
+            throw $exception;
+          }
         }
+	    else {
+	      return 1;
+        }
+
     }
 
     public static function tail($array) {
@@ -511,8 +521,7 @@ class R {
 	  return array_map(function ($paths) use ($obj) {
 	    $val = $obj;
 	    $idx = 0;
-	    while ($idx < count($paths)) {
-	      //var_dump($paths[$idx]);
+	    while ($idx < self::_count($paths)) {
 	      if ($val == null) {
             return;
           }
@@ -529,7 +538,12 @@ class R {
       }, $pathsArray);
     }
 
-    public static function allPass($preds) {
+  public static function path($pathAr, $obj) {
+    return (self::paths([$pathAr], $obj))[0];
+  }
+
+
+  public static function allPass($preds) {
 	  //return self::curryN(self::$reduce(self::$max, 0, ))
 
 /*
@@ -569,6 +583,10 @@ class R {
 
         self::$paths = self::_curry2(function ($apthArrays, $obj) {
           return self::paths($apthArrays, $obj);
+        });
+
+        self::$path = self::_curry2(function ($apthArrays, $obj) {
+          return self::path($apthArrays, $obj);
         });
 
         self::$keys = self::_curry1(function($obj) {
