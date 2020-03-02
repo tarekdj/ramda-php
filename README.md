@@ -160,7 +160,7 @@ So far only the curry functions and part of the functions implemented. The libra
 - [x] pipe
 - [ ] pipeK
 - [ ] pipeP
-- [ ] pluck
+- [x] pluck
 - [x] prepend
 - [ ] product
 - [x] project
