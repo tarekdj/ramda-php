@@ -167,6 +167,22 @@ class OtherTests extends \PHPUnit\Framework\TestCase
       $this->assertEquals(R::pathEq(['value'], -0, '{value: 0}'), false);
     }
 
+    public function testPluck() {
+      $people = json_decode('[
+        {"name": "Fred", "age": 23},
+        {"name": "Wilma", "age": 21},
+        {"name": "Pebbles", "age": 2}
+      ]');
+
+      // Returns a function that maps the appropriate property over an array.
+      $nm = R::pluck('name', $people);
+      $this->assertTrue(is_callable($nm));
+      $this->assertEquals($nm($people), ['Fred', 'Wilma', 'Pebbles']);
+
+      $nm2 = (R::$pluck)('name', $people);
+      $this->assertEquals($nm2($people), ['Fred', 'Wilma', 'Pebbles']);
+    }
+
     public function test_tail() {
         $this->assertEquals(R::tail([1,2,3]), [2,3]);
         $this->assertEquals(R::tail([1,2]), [2]);

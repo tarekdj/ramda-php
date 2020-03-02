@@ -133,7 +133,7 @@ class R {
 	}
 
     private static function getParametersCount($fn) {
-        $rf = new ReflectionFunction($fn);
+        $rf = new \ReflectionFunction($fn);
         return count($rf->getParameters());
     }
 
@@ -308,21 +308,10 @@ class R {
         $n_params = self::getParametersCount($fn);
 
         return self::curryN($n_params, $fn);
-        // return self::_curry1(function() use($fn, $n_params) {
-        //     return self::curryN($n_params, $fn);
-        // });
     }
 
     public static function curryN($length, $fn) {
         return self::_curryN($length, [], $fn);
-/*
-        return self::_curry2(function() use($length, $fn){
-            if($length === 1) {
-                return self::_curry1($fn);
-            }
-            return self::_arity($length, self::_curryN($length, [], $fn));
-        });
-        */
     }
 
     public static function _slice($args, $from = null, $to = null) {

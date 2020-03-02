@@ -132,6 +132,7 @@ class R {
 		public static $objOf;
 
     public static $_complement;
+    public static $pluck;
 
 	private static function _isPlaceholder($a) {
 		return self::$_ === $a;
@@ -518,6 +519,14 @@ class R {
 	  return $f;
     }
 
+    public static function pluck($p, $list) {
+	    //return (self::$map)($prop, $list);
+	    return function ($list) use ($p) {
+        $prop = (self::$prop)($p);
+        return (self::$map)($prop, $list);
+      };
+    }
+
     public static function paths($pathsArray, $obj) {
 	  return array_map(function ($paths) use ($obj) {
 	    $val = $obj;
@@ -598,6 +607,10 @@ class R {
 
         self::$pathEq = self::_curry3(function ($_path, $val, $obj) {
           return self::pathEq($_path, $val, $obj);
+        });
+
+        self::$pluck = self::_curry2(function ($p, $list) {
+          return self::pluck($p, $list);
         });
 
         self::$keys = self::_curry1(function($obj) {
